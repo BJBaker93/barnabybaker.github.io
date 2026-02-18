@@ -1,15 +1,15 @@
-# CLAUDE.md — barnabybaker.github.io
+# CLAUDE.md — barnabybaker.au
 
 This file provides context and conventions for AI assistants working on this repository.
 
 ## Project Overview
 
-This is **Barnaby Baker's mixing engineer portfolio** hosted via **GitHub Pages** at `https://barnabybaker.github.io`. It is a single-page static site inspired by the [Xavier Dunn](https://xavierdunn.com.au/) Squarespace template — dark, minimal, full-viewport parallax sections.
+This is **Barnaby Baker's mixing engineer portfolio** hosted via **GitHub Pages** at `https://barnabybaker.au`. It is a single-page static site inspired by the [Xavier Dunn](https://xavierdunn.com.au/) Squarespace template — dark, minimal, full-viewport parallax sections.
 
 ## Repository Structure
 
 ```
-barnabybaker.github.io/
+barnabybaker.au/
 ├── index.html           # Single-page site (HTML + inline CSS + inline JS)
 ├── assets/images/       # TODO: Create this dir for hero, contact, logo, OG images
 ├── README.md            # Minimal repo description
@@ -52,7 +52,7 @@ The `<head>` includes full SEO markup:
 - Schema.org JSON-LD (`@type: WebSite`)
 - Canonical URL
 
-All SEO values reference `https://barnabybaker.github.io` and `assets/images/og-image.jpg` (TODO).
+All SEO values reference `https://barnabybaker.au` and `assets/images/og-image.jpg` (TODO).
 
 ## TODO Slots (placeholder content to replace)
 
