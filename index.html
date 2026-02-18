@@ -1,10 +1,889 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-AU">
 <head>
-  <title>Welcome to Barnaby Baker's Website!</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Barnaby Baker | Mixing Engineer</title>
+
+  <!-- SEO: Meta Description — TODO: Write your own description -->
+  <meta name="description" content="Barnaby Baker is a mixing engineer delivering polished, punchy, and dynamic mixes. Get in touch to bring your music to life.">
+
+  <!-- SEO: Canonical URL — TODO: Update with your real domain if you get a custom one -->
+  <link rel="canonical" href="https://barnabybaker.github.io">
+
+  <!-- SEO: Open Graph -->
+  <meta property="og:site_name" content="Barnaby Baker">
+  <meta property="og:title" content="Barnaby Baker | Mixing Engineer">
+  <meta property="og:description" content="Barnaby Baker is a mixing engineer delivering polished, punchy, and dynamic mixes. Get in touch to bring your music to life.">
+  <meta property="og:url" content="https://barnabybaker.github.io">
+  <meta property="og:type" content="website">
+  <!-- TODO: Replace with your own OG image (1200x630 recommended). Place in assets/images/ -->
+  <meta property="og:image" content="https://barnabybaker.github.io/assets/images/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- SEO: Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Barnaby Baker | Mixing Engineer">
+  <meta name="twitter:description" content="Barnaby Baker is a mixing engineer delivering polished, punchy, and dynamic mixes.">
+  <meta name="twitter:image" content="https://barnabybaker.github.io/assets/images/og-image.jpg">
+
+  <!-- SEO: Structured Data (Schema.org JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "WebSite",
+    "name": "Barnaby Baker",
+    "url": "https://barnabybaker.github.io",
+    "description": "Barnaby Baker is a mixing engineer delivering polished, punchy, and dynamic mixes.",
+    "image": "https://barnabybaker.github.io/assets/images/og-image.jpg"
+  }
+  </script>
+
+  <!-- TODO: Add your favicon. Place favicon.ico in the root or assets/images/ -->
+  <!-- <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"> -->
+
+  <!-- Google Fonts: Chivo (same typeface as Xavier Dunn's site) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,300;0,400;0,700;0,900;1,400;1,700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================
+       RESET & BASE
+       ========================================================== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: 'Chivo', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      background: #000;
+      color: #fff;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    button {
+      background: none;
+      border: none;
+      color: inherit;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    /* ==========================================================
+       PAGE LOADER (fade-in on load, like the Squarespace site)
+       ========================================================== */
+    .loader {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      z-index: 10000;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+
+    .loader.loaded {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    /* ==========================================================
+       MOBILE TOP BAR (visible < 640px)
+       ========================================================== */
+    .mobile-bar {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 16px 20px;
+      align-items: center;
+      justify-content: space-between;
+      background: transparent;
+      transition: background 0.3s ease;
+    }
+
+    .mobile-bar.scrolled {
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    /* TODO: If using a logo image, style .mobile-bar-logo img instead */
+    .mobile-bar-logo-text {
+      font-weight: 900;
+      font-size: 14px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .hamburger {
+      width: 24px;
+      height: 18px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 100%;
+      height: 1px;
+      background: #fff;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .hamburger.open span:nth-child(1) {
+      transform: translateY(8.5px) rotate(45deg);
+    }
+
+    .hamburger.open span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.open span:nth-child(3) {
+      transform: translateY(-8.5px) rotate(-45deg);
+    }
+
+    /* ==========================================================
+       MOBILE OVERLAY MENU
+       ========================================================== */
+    .mobile-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+
+    .mobile-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .mobile-overlay nav {
+      text-align: center;
+    }
+
+    .mobile-overlay nav a {
+      display: block;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 16px 0;
+      opacity: 0.7;
+      transition: opacity 0.3s ease;
+    }
+
+    .mobile-overlay nav a:hover,
+    .mobile-overlay nav a.active {
+      opacity: 1;
+    }
+
+    .mobile-overlay-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 24px;
+      height: 24px;
+    }
+
+    .mobile-overlay-close::before,
+    .mobile-overlay-close::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: #fff;
+    }
+
+    .mobile-overlay-close::before { transform: rotate(45deg); }
+    .mobile-overlay-close::after  { transform: rotate(-45deg); }
+
+    /* ==========================================================
+       DESKTOP HEADER (fixed top)
+       ========================================================== */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 30px 40px;
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    /* Navigation: left-aligned */
+    .header-nav {
+      position: absolute;
+      left: 0;
+      display: flex;
+      gap: 24px;
+    }
+
+    .header-nav a {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      opacity: 0.7;
+      transition: opacity 0.3s ease;
+    }
+
+    .header-nav a:hover,
+    .header-nav a.active {
+      opacity: 1;
+    }
+
+    /* Logo / Branding: centered */
+    .header-branding {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /*
+      TODO: If using a logo image, uncomment this and add <img> in HTML:
+      .header-branding img { height: 50px; width: auto; }
+    */
+    .header-branding-text {
+      font-weight: 900;
+      font-size: 16px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+
+    /* ==========================================================
+       INDEX NAV (right-side vertical lines — like Xavier Dunn)
+       ========================================================== */
+    .index-nav {
+      position: fixed;
+      right: 30px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: flex-end;
+    }
+
+    .index-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+    }
+
+    .index-nav-text {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: 0;
+      transform: translateX(10px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .index-nav-item:hover .index-nav-text,
+    .index-nav-item.active .index-nav-text {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .index-nav-indicator {
+      width: 24px;
+      height: 2px;
+      background: rgba(255, 255, 255, 0.3);
+      transition: background 0.3s ease, width 0.3s ease;
+    }
+
+    .index-nav-item.active .index-nav-indicator {
+      background: #fff;
+      width: 36px;
+    }
+
+    .index-nav-item:hover .index-nav-indicator {
+      background: rgba(255, 255, 255, 0.7);
+    }
+
+    /* ==========================================================
+       SECTIONS (full-viewport index pages)
+       ========================================================== */
+    .section {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* ==========================================================
+       SECTION 1: HERO / LANDING
+       ========================================================== */
+    .section--hero {
+      align-items: flex-end;
+      padding-bottom: 80px;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .hero-bg-image {
+      width: 100%;
+      height: 120%;
+      object-fit: cover;
+      object-position: 50% 39%;
+      will-change: transform;
+    }
+
+    .hero-bg-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0) 50%,
+        rgba(0, 0, 0, 0.4) 100%
+      );
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      padding: 0 40px;
+      width: 100%;
+    }
+
+    /* Scroll indicator arrow */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0.5;
+      transition: opacity 0.3s ease;
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+
+    .scroll-indicator:hover {
+      opacity: 1;
+    }
+
+    .scroll-indicator svg {
+      width: 24px;
+      height: 24px;
+      fill: none;
+      stroke: #fff;
+      stroke-width: 1.5;
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%      { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* ==========================================================
+       SECTION 2: ABOUT
+       ========================================================== */
+    .section--about {
+      background: #111;
+      padding: 120px 40px;
+    }
+
+    .about-content {
+      max-width: 700px;
+      text-align: center;
+      margin: 0 auto;
+    }
+
+    .about-content p {
+      font-size: 17px;
+      line-height: 1.9;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .about-content strong {
+      font-weight: 700;
+      color: #fff;
+    }
+
+    /* ==========================================================
+       SECTION 3: GET IN TOUCH
+       ========================================================== */
+    .section--contact {
+      min-height: 100vh;
+    }
+
+    .contact-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .contact-bg-image {
+      width: 100%;
+      height: 120%;
+      object-fit: cover;
+      object-position: 50% 50%;
+      will-change: transform;
+    }
+
+    .contact-bg-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+    }
+
+    .contact-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 40px;
+    }
+
+    .contact-content h3 {
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: 0.7;
+      margin-bottom: 16px;
+    }
+
+    .contact-content h1 {
+      font-size: 42px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      margin-bottom: 30px;
+    }
+
+    .contact-btn {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+      transition: border-color 0.3s ease, opacity 0.3s ease;
+    }
+
+    .contact-btn:hover {
+      border-color: #fff;
+      opacity: 0.8;
+    }
+
+    /* ==========================================================
+       FOOTER
+       ========================================================== */
+    .footer {
+      padding: 50px 40px;
+      text-align: center;
+      background: #000;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .footer-copy {
+      font-size: 11px;
+      letter-spacing: 1px;
+      opacity: 0.3;
+    }
+
+    /* ==========================================================
+       FADE-IN ANIMATION (on scroll)
+       ========================================================== */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ==========================================================
+       RESPONSIVE (mobile breakpoint at 640px, same as original)
+       ========================================================== */
+    @media (max-width: 640px) {
+      .mobile-bar {
+        display: flex;
+      }
+
+      .header {
+        display: none;
+      }
+
+      .index-nav {
+        display: none;
+      }
+
+      .section--hero {
+        padding-bottom: 60px;
+      }
+
+      .hero-content {
+        padding: 0 24px;
+      }
+
+      .section--about {
+        padding: 80px 24px;
+      }
+
+      .about-content p {
+        font-size: 15px;
+      }
+
+      .contact-content {
+        padding: 24px;
+      }
+
+      .contact-content h1 {
+        font-size: 28px;
+      }
+
+      .contact-content h3 {
+        font-size: 12px;
+      }
+
+      .footer {
+        padding: 40px 24px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>Hello, world!</h1>
-  <p>This is my personal site hosted on GitHub Pages.</p>
+
+  <!-- Page Loader -->
+  <div class="loader" id="loader"></div>
+
+  <!-- ==========================================================
+       MOBILE BAR (shown on small screens)
+       ========================================================== -->
+  <div class="mobile-bar" id="mobileBar">
+    <button class="hamburger" id="hamburgerBtn" aria-label="Open navigation menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <a href="#landing" class="mobile-bar-logo">
+      <!--
+        TODO: Replace with your logo image:
+        <img src="/assets/images/logo-white.png" alt="Barnaby Baker" style="height:30px;width:auto;">
+      -->
+      <span class="mobile-bar-logo-text">Barnaby Baker</span>
+    </a>
+
+    <div style="width:24px"></div>
+  </div>
+
+  <!-- Mobile Overlay Menu -->
+  <div class="mobile-overlay" id="mobileOverlay">
+    <button class="mobile-overlay-close" id="mobileClose" aria-label="Close navigation menu"></button>
+    <nav>
+      <a href="#landing" class="active">Home</a>
+      <a href="#about">About</a>
+      <a href="#contact">Get In Touch</a>
+    </nav>
+  </div>
+
+  <!-- ==========================================================
+       DESKTOP HEADER
+       ========================================================== -->
+  <header class="header">
+    <div class="header-inner">
+      <nav class="header-nav">
+        <a href="#landing" class="active" data-nav="landing">Home</a>
+        <a href="#about" data-nav="about">About</a>
+        <a href="#contact" data-nav="contact">Get In Touch</a>
+      </nav>
+
+      <a href="#landing" class="header-branding">
+        <!--
+          TODO: Replace with your logo image:
+          <img src="/assets/images/logo-white.png" alt="Barnaby Baker">
+        -->
+        <span class="header-branding-text">Barnaby Baker</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- ==========================================================
+       INDEX NAV (right-side vertical indicator lines)
+       ========================================================== -->
+  <nav class="index-nav" id="indexNav">
+    <a href="#landing" class="index-nav-item active" data-section="landing">
+      <span class="index-nav-text">Landing</span>
+      <div class="index-nav-indicator"></div>
+    </a>
+    <a href="#about" class="index-nav-item" data-section="about">
+      <span class="index-nav-text">About</span>
+      <div class="index-nav-indicator"></div>
+    </a>
+    <a href="#contact" class="index-nav-item" data-section="contact">
+      <span class="index-nav-text">Get In Touch</span>
+      <div class="index-nav-indicator"></div>
+    </a>
+  </nav>
+
+  <!-- ==========================================================
+       SECTION 1: HERO / LANDING
+       Full-viewport image with parallax, matching Xavier Dunn's
+       hero section. Content area intentionally sparse — the image
+       and logo do the talking.
+       ========================================================== -->
+  <section id="landing" class="section section--hero">
+    <div class="hero-bg">
+      <!--
+        TODO: Replace src with your own hero image.
+        Recommended: high-res photo (2400px+ wide), portrait or landscape.
+        Adjust object-position in CSS (.hero-bg-image) to set focal point.
+        Xavier Dunn used a 2400x3600 press photo here.
+        Ideas: you at the console, studio wide shot, moody gear close-up.
+      -->
+      <img
+        class="hero-bg-image"
+        src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=2400&q=80"
+        alt="TODO: Describe your hero image for accessibility"
+      >
+      <div class="hero-bg-overlay"></div>
+    </div>
+
+    <div class="hero-content">
+      <!--
+        The original Xavier Dunn site leaves the hero empty —
+        just a big dramatic image with the logo overlaid.
+        Add a tagline here if you want, or leave it clean.
+      -->
+    </div>
+
+    <a href="#about" class="scroll-indicator" aria-label="Scroll down">
+      <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    </a>
+  </section>
+
+  <!-- ==========================================================
+       SECTION 2: ABOUT
+       Centered text on dark background, matching the Xavier Dunn
+       bio section. Keep it punchy — name in bold, 2-3 sentences.
+       ========================================================== -->
+  <section id="about" class="section section--about">
+    <div class="about-content fade-in">
+      <!--
+        TODO: Replace this with your real bio.
+        Keep the <strong> tag on your name — it matches the original style.
+        Mention your location, genre specialties, notable credits, awards.
+      -->
+      <p>
+        <strong>Barnaby Baker</strong> is a mixing engineer based in
+        <!-- TODO: your city/country -->. Specialising in
+        <!-- TODO: your genres, e.g. "pop, indie, electronic, and hip-hop" -->,
+        he delivers polished, punchy, and dynamic mixes that bring records to life.
+        <!-- TODO: Add notable credits. e.g. "His work includes mixes for [Artist], [Artist], [Artist], and more." -->
+      </p>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       SECTION 3: GET IN TOUCH
+       Full-viewport background image with overlay + CTA,
+       matching Xavier Dunn's contact section exactly.
+       ========================================================== -->
+  <section id="contact" class="section section--contact">
+    <div class="contact-bg">
+      <!--
+        TODO: Replace src with your own image.
+        Xavier Dunn used a 2407x2400 studio photo here.
+        Ideas: your studio, mixing desk, rack gear, creative environment.
+      -->
+      <img
+        class="contact-bg-image"
+        src="https://images.unsplash.com/photo-1519874179391-3ebc752241dd?w=2400&q=80"
+        alt="TODO: Describe your contact section image for accessibility"
+      >
+      <div class="contact-bg-overlay"></div>
+    </div>
+
+    <div class="contact-content fade-in">
+      <h3>Want to work together?</h3>
+      <h1>Get in touch:</h1>
+      <!--
+        TODO: Replace href with your contact method:
+        - Email: href="mailto:you@example.com"
+        - Contact form: href="/contact"
+        - External form: href="https://forms.gle/..."
+      -->
+      <a href="mailto:hello@barnabybaker.com" class="contact-btn">Contact</a>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       FOOTER
+       ========================================================== -->
+  <footer class="footer">
+    <div class="footer-copy">
+      &copy; <span id="year"></span> Barnaby Baker. All rights reserved.
+    </div>
+  </footer>
+
+  <!-- ==========================================================
+       JAVASCRIPT
+       - Page loader fade
+       - Mobile menu toggle
+       - Scroll-based active section tracking (header, index nav)
+       - Fade-in on scroll (IntersectionObserver)
+       - Parallax on hero & contact background images
+       ========================================================== -->
+  <script>
+    (function () {
+      'use strict';
+
+      // --- Page loader ---
+      window.addEventListener('load', function () {
+        document.getElementById('loader').classList.add('loaded');
+      });
+
+      // --- Footer year ---
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      // --- Mobile menu ---
+      var hamburger = document.getElementById('hamburgerBtn');
+      var overlay   = document.getElementById('mobileOverlay');
+      var mobileClose = document.getElementById('mobileClose');
+
+      function toggleMenu() {
+        hamburger.classList.toggle('open');
+        overlay.classList.toggle('open');
+        document.body.style.overflow = overlay.classList.contains('open') ? 'hidden' : '';
+      }
+
+      hamburger.addEventListener('click', toggleMenu);
+      mobileClose.addEventListener('click', toggleMenu);
+
+      // Close on nav link click
+      overlay.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', function () {
+          if (overlay.classList.contains('open')) toggleMenu();
+        });
+      });
+
+      // --- Mobile bar background on scroll ---
+      var mobileBar = document.getElementById('mobileBar');
+      window.addEventListener('scroll', function () {
+        mobileBar.classList.toggle('scrolled', window.scrollY > 50);
+      });
+
+      // --- Active section tracking ---
+      var sections       = document.querySelectorAll('.section');
+      var indexNavItems   = document.querySelectorAll('.index-nav-item');
+      var headerNavItems  = document.querySelectorAll('.header-nav a');
+      var mobileNavItems  = overlay.querySelectorAll('nav a');
+
+      function setActive(id) {
+        indexNavItems.forEach(function (el) {
+          el.classList.toggle('active', el.getAttribute('data-section') === id);
+        });
+        headerNavItems.forEach(function (el) {
+          el.classList.toggle('active', el.getAttribute('data-nav') === id);
+        });
+        mobileNavItems.forEach(function (el) {
+          el.classList.toggle('active', el.getAttribute('href') === '#' + id);
+        });
+      }
+
+      var sectionObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) setActive(entry.target.id);
+        });
+      }, { threshold: 0.4 });
+
+      sections.forEach(function (s) { sectionObserver.observe(s); });
+
+      // --- Fade-in on scroll ---
+      var fadeEls = document.querySelectorAll('.fade-in');
+      var fadeObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) entry.target.classList.add('visible');
+        });
+      }, { threshold: 0.2 });
+
+      fadeEls.forEach(function (el) { fadeObserver.observe(el); });
+
+      // --- Parallax on background images ---
+      var parallaxImages = document.querySelectorAll('.hero-bg-image, .contact-bg-image');
+
+      function handleParallax() {
+        var scrollY = window.pageYOffset;
+        parallaxImages.forEach(function (img) {
+          var section = img.closest('.section');
+          if (!section) return;
+          var rect = section.getBoundingClientRect();
+          if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+          var sectionTop = rect.top + scrollY;
+          var offset = (scrollY - sectionTop) * 0.25;
+          img.style.transform = 'translate3d(0,' + offset + 'px,0)';
+        });
+      }
+
+      window.addEventListener('scroll', handleParallax, { passive: true });
+      handleParallax();
+    })();
+  </script>
+
 </body>
 </html>
