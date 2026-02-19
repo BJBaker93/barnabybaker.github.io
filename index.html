@@ -247,15 +247,13 @@
 
     .header-inner {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      position: relative;
+      gap: 14px;
     }
 
-    /* Navigation: left-aligned */
+    /* Navigation: centered below branding */
     .header-nav {
-      position: absolute;
-      left: 0;
       display: flex;
       gap: 24px;
     }
@@ -434,11 +432,12 @@
     }
 
     /* ==========================================================
-       SECTION 2: ABOUT
+       SECTION 2: PROJECTS
        ========================================================== */
     .section--about {
       background: #111;
-      padding: 120px 40px;
+      min-height: 0;
+      padding: 80px 40px;
     }
 
     .about-content {
@@ -581,7 +580,7 @@
       }
 
       .section--about {
-        padding: 80px 24px;
+        padding: 60px 24px;
       }
 
       .about-content p {
@@ -637,7 +636,7 @@
     <button class="mobile-overlay-close" id="mobileClose" aria-label="Close navigation menu"></button>
     <nav>
       <a href="#landing" class="active">Home</a>
-      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
       <a href="#contact">Get In Touch</a>
     </nav>
   </div>
@@ -647,12 +646,6 @@
        ========================================================== -->
   <header class="header">
     <div class="header-inner">
-      <nav class="header-nav">
-        <a href="#landing" class="active" data-nav="landing">Home</a>
-        <a href="#about" data-nav="about">About</a>
-        <a href="#contact" data-nav="contact">Get In Touch</a>
-      </nav>
-
       <a href="#landing" class="header-branding">
         <!--
           TODO: Replace with your logo image:
@@ -660,6 +653,12 @@
         -->
         <span class="header-branding-text">Barnaby Baker</span>
       </a>
+
+      <nav class="header-nav">
+        <a href="#landing" class="active" data-nav="landing">Home</a>
+        <a href="#projects" data-nav="projects">Projects</a>
+        <a href="#contact" data-nav="contact">Get In Touch</a>
+      </nav>
     </div>
   </header>
 
@@ -671,8 +670,8 @@
       <span class="index-nav-text">Landing</span>
       <div class="index-nav-indicator"></div>
     </a>
-    <a href="#about" class="index-nav-item" data-section="about">
-      <span class="index-nav-text">About</span>
+    <a href="#projects" class="index-nav-item" data-section="projects">
+      <span class="index-nav-text">Projects</span>
       <div class="index-nav-indicator"></div>
     </a>
     <a href="#contact" class="index-nav-item" data-section="contact">
@@ -712,7 +711,7 @@
       -->
     </div>
 
-    <a href="#about" class="scroll-indicator" aria-label="Scroll down">
+    <a href="#projects" class="scroll-indicator" aria-label="Scroll down">
       <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
     </a>
   </section>
@@ -722,7 +721,7 @@
        Centered text on dark background, matching the Xavier Dunn
        bio section. Keep it punchy — name in bold, 2-3 sentences.
        ========================================================== -->
-  <section id="about" class="section section--about">
+  <section id="projects" class="section section--about">
     <div class="about-content fade-in">
       <!--
         TODO: Replace this with your real bio.
