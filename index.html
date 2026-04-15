@@ -31,6 +31,7 @@
     cursor: pointer;
     margin-bottom: 20px;
     text-transform: lowercase;
+    user-select: none;
   }
 
   .dropdown {
@@ -42,14 +43,14 @@
   }
 
   .dropdown.open {
-    max-height: 500px;
+    max-height: 600px;
   }
 
   .dropdown p {
-    margin: 5px 0;
+    margin: 6px 0;
   }
 
-  /* RIGHT SIDE (placeholder for player later) */
+  /* RIGHT SIDE */
   .right {
     width: 60%;
     display: flex;
@@ -70,11 +71,11 @@
     <div class="menu-item" onclick="toggle('mixing')">mixing</div>
     <div id="mixing" class="dropdown">
       <p>safe mixes get ignored. i don’t make those.</p>
-      <br>
+
       <p><strong>rate</strong></p>
       <p>$450 per track</p>
       <p>ep / album - contact</p>
-      <br>
+
       <p>built by an artist - not just an engineer:</p>
       <p>- master included</p>
       <p>- live stems for backing tracks</p>
@@ -86,7 +87,7 @@
     <div id="production" class="dropdown">
       <p>production & songwriting</p>
       <p>$300 / day (online or in person)</p>
-      <br>
+
       <p>live set production</p>
       <p>- song transitions</p>
       <p>- session setup in any daw</p>
@@ -95,12 +96,23 @@
     <!-- WORK WITH ME -->
     <div class="menu-item" onclick="toggle('contact')">work with me</div>
     <div id="contact" class="dropdown">
-      <p>email: your@email.com</p>
-      <br>
+
       <p>send:</p>
       <p>- track or demo</p>
       <p>- reference songs</p>
       <p>- what you want it to feel like</p>
+
+      <form action="https://formspree.io/f/mzdyzwgj" method="POST">
+
+        <input type="text" name="name" placeholder="name" required>
+        <input type="email" name="email" placeholder="email" required>
+        <input type="text" name="artist" placeholder="artist name">
+        <input type="text" name="references" placeholder="reference tracks">
+        <textarea name="message" placeholder="what do you want this track to feel like?" required></textarea>
+
+        <button type="submit">send</button>
+
+      </form>
     </div>
 
   </div>
@@ -113,8 +125,16 @@
 
 <script>
   function toggle(id) {
-    const el = document.getElementById(id);
-    el.classList.toggle("open");
+    const all = document.querySelectorAll('.dropdown');
+    const target = document.getElementById(id);
+
+    all.forEach(el => {
+      if (el !== target) {
+        el.classList.remove('open');
+      }
+    });
+
+    target.classList.toggle('open');
   }
 </script>
 
