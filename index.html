@@ -111,14 +111,24 @@
     width: 60%;
     display: flex;
     align-items: center;
+    justify-content: flex-start;
+    padding-left: 40px;
+    box-sizing: border-box;
+  }
+
+  .right-inner {
+    width: 100%;
+    max-width: 720px;
+    display: flex;
+    align-items: center;
     justify-content: center;
   }
 
   iframe {
     width: 100%;
-    max-width: 700px;
     height: 380px;
     border: none;
+    border-radius: 12px;
   }
 
   /* NOISE LAYER */
@@ -131,7 +141,7 @@
     pointer-events: none;
     z-index: 9999;
 
-    opacity: 0.22; /* reduced ~40% */
+    opacity: 0.22;
     mix-blend-mode: multiply;
   }
 </style>
@@ -169,9 +179,9 @@
       <p>production & songwriting</p>
       <p>$300 / day (online or in person)</p>
       <br />
-      <p><i>turn a demo into a finished track - full production included</p>
+      <p><i>turn a demo into a finished track - full production included</i></p>
       <p><i>drums (live or electronic), guitars, bass, synths, live strings, arrangement - whatever the song needs</i></p>
-      <p><i>*all instrumentation / production included in the day rate</i>i></p>
+      <p><i>*all instrumentation / production included in the day rate</i></p>
     </div>
 
     <div class="menu-item" onclick="toggle('contact')">work with me</div>
@@ -193,14 +203,17 @@
 
   </div>
 
+  <!-- RIGHT SIDE FIXED -->
   <div class="right">
+    <div class="right-inner">
 
-    <iframe
-      src="https://open.spotify.com/embed/playlist/2Lom1NlMFpFxvv8zDj46XB?utm_source=generator&theme=0"
-      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-      loading="lazy">
-    </iframe>
+      <iframe
+        src="https://open.spotify.com/embed/playlist/2Lom1NlMFpFxvv8zDj46XB?utm_source=generator&theme=0"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        loading="lazy">
+      </iframe>
 
+    </div>
   </div>
 
 </div>
@@ -235,7 +248,6 @@ function resize() {
 resize();
 window.addEventListener("resize", resize);
 
-/* gaussian noise */
 function gaussianRandom() {
   let u = 0, v = 0;
   while (u === 0) u = Math.random();
@@ -258,7 +270,7 @@ function drawNoise() {
     buffer[i + 1] = base + grain;
     buffer[i + 2] = base + grain;
 
-    buffer[i + 3] = 38; // reduced density
+    buffer[i + 3] = 38;
   }
 
   ctx.putImageData(imageData, 0, 0);
