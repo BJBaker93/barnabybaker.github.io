@@ -121,7 +121,7 @@
     border: none;
   }
 
-  /* NOISE LAYER */
+  /* NOISE LAYER (FIXED) */
   #noise {
     position: fixed;
     top: 0;
@@ -129,8 +129,11 @@
     width: 100%;
     height: 100%;
     pointer-events: none;
-    z-index: 1;
-    opacity: 0.18;
+
+    z-index: 9999;
+
+    opacity: 0.35;
+    mix-blend-mode: multiply;
   }
 </style>
 </head>
@@ -157,9 +160,9 @@
       <p>ep / album - contact</p>
       <br />
       <p><strong>built by an artist, not just an engineer</strong></p>
-      <p><italic>*master included</italic></p>
-      <p><italic>*live stems for backing tracks</italic></p>
-      <p><italic>*production tweaks if needed</italic></p>
+      <p><i>*master included</i></p>
+      <p><i>*live stems for backing tracks</i></p>
+      <p><i>*production tweaks if needed</i></p>
     </div>
 
     <!-- PRODUCTION -->
@@ -231,10 +234,13 @@ function drawNoise() {
 
   for (let i = 0; i < buffer.length; i += 4) {
     const value = Math.random() * 255;
+
     buffer[i] = value;
     buffer[i + 1] = value;
     buffer[i + 2] = value;
-    buffer[i + 3] = 18;
+
+    // stronger visible grain
+    buffer[i + 3] = 28;
   }
 
   ctx.putImageData(imageData, 0, 0);
