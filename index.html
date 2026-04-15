@@ -121,7 +121,7 @@
     border: none;
   }
 
-  /* NOISE LAYER (FIXED) */
+  /* NOISE LAYER (GAUSSIAN FILM GRAIN) */
   #noise {
     position: fixed;
     top: 0;
@@ -129,10 +129,9 @@
     width: 100%;
     height: 100%;
     pointer-events: none;
-
     z-index: 9999;
 
-    opacity: 0.35;
+    opacity: 0.55;
     mix-blend-mode: multiply;
   }
 </style>
@@ -229,19 +228,31 @@ function resize() {
 resize();
 window.addEventListener("resize", resize);
 
+/* Gaussian random */
+function gaussianRandom() {
+  let u = 0, v = 0;
+  while (u === 0) u = Math.random();
+  while (v === 0) v = Math.random();
+  return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+}
+
 function drawNoise() {
   const imageData = ctx.createImageData(canvas.width, canvas.height);
   const buffer = imageData.data;
 
   for (let i = 0; i < buffer.length; i += 4) {
-    const value = Math.random() * 255;
 
-    buffer[i] = value;
-    buffer[i + 1] = value;
-    buffer[i + 2] = value;
+    let base = gaussianRandom() * 55 + 128;
 
-    // stronger visible grain
-    buffer[i + 3] = 28;
+    base = Math.max(0, Math.min(255, base));
+
+    // RGB film grain (slight channel drift)
+    buffer[i]     = base + gaussianRandom() * 22;
+    buffer[i + 1] = base + gaussianRandom() * 22;
+    buffer[i + 2] = base + gaussianRandom() * 22;
+
+    // stronger density
+    buffer[i + 3] = 95;
   }
 
   ctx.putImageData(imageData, 0, 0);
