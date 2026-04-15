@@ -43,7 +43,7 @@
   }
 
   .dropdown.open {
-    max-height: 800px;
+    max-height: 900px;
   }
 
   .dropdown p {
@@ -106,16 +106,40 @@
     padding: 40px;
   }
 
-  /* CLEAN PLAYER WRAPPER */
-  .player {
+  /* PLAYER SYSTEM */
+  .player-shell {
     width: 100%;
-    max-width: 600px;
+    max-width: 620px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
   }
 
-  iframe {
+  .player-label {
+    font-size: 14px;
+    letter-spacing: 0.12em;
+    text-transform: lowercase;
+    opacity: 0.6;
+  }
+
+  .player-frame {
+    border: 1px solid #000;
+    padding: 10px;
+  }
+
+  .player-frame iframe {
     width: 100%;
-    height: 180px;
+    height: 220px;
     border: none;
+    display: block;
+  }
+
+  .player-meta {
+    font-size: 13px;
+    opacity: 0.6;
+    display: flex;
+    justify-content: space-between;
+    text-transform: lowercase;
   }
 </style>
 </head>
@@ -171,13 +195,25 @@
 
   </div>
 
+  <!-- RIGHT SIDE -->
   <div class="right">
 
-    <div class="player">
+    <div class="player-shell">
 
-      <iframe
-        src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/soundcloud%3Aplaylists%3A2222329844%3Fsecret_token%3Ds-lrqDF0TTCnR&color=%23000000&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false">
-      </iframe>
+      <div class="player-label">listen</div>
+
+      <div class="player-frame">
+
+        <iframe
+          src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/soundcloud%3Aplaylists%3A2222329844%3Fsecret_token%3Ds-lrqDF0TTCnR&color=%23f4f4f4&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=true">
+        </iframe>
+
+      </div>
+
+      <div class="player-meta">
+        <div>friends of friends</div>
+        <div>mix credit highlights</div>
+      </div>
 
     </div>
 
