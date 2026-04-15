@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>BJ Mixing</title>
+<title>barnaby baker mixing</title>
 
 <style>
   body {
@@ -43,11 +43,64 @@
   }
 
   .dropdown.open {
-    max-height: 600px;
+    max-height: 800px;
   }
 
   .dropdown p {
     margin: 6px 0;
+  }
+
+  /* CONTACT FORM */
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-top: 10px;
+  }
+
+  .contact-form h2 {
+    font-size: 24px;
+    font-weight: normal;
+    margin-bottom: 10px;
+    text-transform: lowercase;
+  }
+
+  .contact-form input {
+    font-size: 18px;
+    padding: 12px 0;
+    border: none;
+    border-bottom: 1px solid #000;
+    outline: none;
+    background: transparent;
+    text-transform: lowercase;
+  }
+
+  .contact-form textarea {
+    font-size: 18px;
+    padding: 12px 0;
+    border: none;
+    border-bottom: 1px solid #000;
+    outline: none;
+    background: transparent;
+    height: 140px;
+    resize: none;
+    text-transform: lowercase;
+  }
+
+  .contact-form button {
+    margin-top: 10px;
+    padding: 14px 0;
+    font-size: 16px;
+    background: none;
+    border: 1px solid #000;
+    cursor: pointer;
+    text-transform: lowercase;
+    transition: 0.2s ease;
+  }
+
+  .contact-form button:hover {
+    background: #000;
+    color: #fff;
   }
 
   /* RIGHT SIDE */
@@ -97,22 +150,20 @@
     <div class="menu-item" onclick="toggle('contact')">work with me</div>
     <div id="contact" class="dropdown">
 
-      <p>send:</p>
-      <p>- track or demo</p>
-      <p>- reference songs</p>
-      <p>- what you want it to feel like</p>
+      <form action="https://formspree.io/f/mzdyzwgj" method="POST" class="contact-form">
 
-      <form action="https://formspree.io/f/mzdyzwgj" method="POST">
+        <h2>contact</h2>
 
-        <input type="text" name="name" placeholder="name" required>
-        <input type="email" name="email" placeholder="email" required>
-        <input type="text" name="artist" placeholder="artist name">
-        <input type="text" name="references" placeholder="reference tracks">
-        <textarea name="message" placeholder="what do you want this track to feel like?" required></textarea>
+        <input type="text" name="name" placeholder="name (required)" required>
+        <input type="text" name="artist" placeholder="artist name (required)" required>
+        <input type="email" name="email" placeholder="email address (required)" required>
 
-        <button type="submit">send</button>
+        <textarea name="message" placeholder="message (required)" required></textarea>
+
+        <button type="submit">submit</button>
 
       </form>
+
     </div>
 
   </div>
