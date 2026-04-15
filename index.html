@@ -131,10 +131,8 @@
     pointer-events: none;
     z-index: 9999;
 
-    opacity: 0.32; /* reduced from ~0.5 feel */
+    opacity: 0.22; /* reduced ~40% */
     mix-blend-mode: multiply;
-
-    image-rendering: pixelated;
   }
 </style>
 </head>
@@ -232,7 +230,7 @@ function resize() {
 resize();
 window.addEventListener("resize", resize);
 
-/* Gaussian distribution */
+/* gaussian noise */
 function gaussianRandom() {
   let u = 0, v = 0;
   while (u === 0) u = Math.random();
@@ -246,15 +244,16 @@ function drawNoise() {
 
   for (let i = 0; i < buffer.length; i += 4) {
 
-    // reduced intensity (~40% less than previous version)
-    let base = gaussianRandom() * 35 + 128;
+    let base = 128 + gaussianRandom() * 22;
     base = Math.max(0, Math.min(255, base));
 
-    buffer[i]     = base + gaussianRandom() * 10;
-    buffer[i + 1] = base + gaussianRandom() * 10;
-    buffer[i + 2] = base + gaussianRandom() * 10;
+    const grain = gaussianRandom() * 6;
 
-    buffer[i + 3] = 65; // softer density
+    buffer[i]     = base + grain;
+    buffer[i + 1] = base + grain;
+    buffer[i + 2] = base + grain;
+
+    buffer[i + 3] = 38; // reduced density
   }
 
   ctx.putImageData(imageData, 0, 0);
