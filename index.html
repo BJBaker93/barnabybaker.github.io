@@ -121,7 +121,7 @@
     border: none;
   }
 
-  /* NOISE LAYER (GAUSSIAN FILM GRAIN) */
+  /* NOISE LAYER */
   #noise {
     position: fixed;
     top: 0;
@@ -131,15 +131,16 @@
     pointer-events: none;
     z-index: 9999;
 
-    opacity: 0.55;
+    opacity: 0.32; /* reduced from ~0.5 feel */
     mix-blend-mode: multiply;
+
+    image-rendering: pixelated;
   }
 </style>
 </head>
 
 <body>
 
-<!-- NOISE CANVAS -->
 <canvas id="noise"></canvas>
 
 <div class="container">
@@ -150,7 +151,6 @@
       barnaby baker - mix engineer
     </div>
 
-    <!-- MIXING -->
     <div class="menu-item" onclick="toggle('mixing')">mixing</div>
     <div id="mixing" class="dropdown">
       <p><strong>safe mixes get ignored. i don’t make those.</strong></p>
@@ -165,14 +165,12 @@
       <p><i>*production tweaks if needed</i></p>
     </div>
 
-    <!-- PRODUCTION -->
     <div class="menu-item" onclick="toggle('production')">production</div>
     <div id="production" class="dropdown">
       <p>production & songwriting</p>
       <p>$300 / day (online or in person)</p>
     </div>
 
-    <!-- WORK WITH ME -->
     <div class="menu-item" onclick="toggle('contact')">work with me</div>
     <div id="contact" class="dropdown">
 
@@ -221,14 +219,20 @@
 const canvas = document.getElementById("noise");
 const ctx = canvas.getContext("2d");
 
+const SCALE = 0.4;
+
 function resize() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  canvas.width = window.innerWidth * SCALE;
+  canvas.height = window.innerHeight * SCALE;
+
+  canvas.style.width = window.innerWidth + "px";
+  canvas.style.height = window.innerHeight + "px";
 }
+
 resize();
 window.addEventListener("resize", resize);
 
-/* Gaussian random */
+/* Gaussian distribution */
 function gaussianRandom() {
   let u = 0, v = 0;
   while (u === 0) u = Math.random();
@@ -242,17 +246,15 @@ function drawNoise() {
 
   for (let i = 0; i < buffer.length; i += 4) {
 
-    let base = gaussianRandom() * 55 + 128;
-
+    // reduced intensity (~40% less than previous version)
+    let base = gaussianRandom() * 35 + 128;
     base = Math.max(0, Math.min(255, base));
 
-    // RGB film grain (slight channel drift)
-    buffer[i]     = base + gaussianRandom() * 22;
-    buffer[i + 1] = base + gaussianRandom() * 22;
-    buffer[i + 2] = base + gaussianRandom() * 22;
+    buffer[i]     = base + gaussianRandom() * 10;
+    buffer[i + 1] = base + gaussianRandom() * 10;
+    buffer[i + 2] = base + gaussianRandom() * 10;
 
-    // stronger density
-    buffer[i + 3] = 95;
+    buffer[i + 3] = 65; // softer density
   }
 
   ctx.putImageData(imageData, 0, 0);
