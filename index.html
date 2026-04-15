@@ -10,11 +10,14 @@
     font-family: Helvetica, Arial, sans-serif;
     background: #fff;
     color: #000;
+    overflow: hidden;
   }
 
   .container {
     display: flex;
     height: 100vh;
+    position: relative;
+    z-index: 2;
   }
 
   /* LEFT SIDE */
@@ -26,7 +29,6 @@
     justify-content: center;
   }
 
-  /* identity line */
   .identity {
     font-size: 14px;
     text-transform: lowercase;
@@ -72,7 +74,8 @@
     margin-top: 10px;
   }
 
-  .contact-form input {
+  .contact-form input,
+  .contact-form textarea {
     font-size: 16px;
     padding: 10px 0;
     border: none;
@@ -83,15 +86,8 @@
   }
 
   .contact-form textarea {
-    font-size: 16px;
-    padding: 10px 0;
-    border: none;
-    border-bottom: 1px solid #000;
-    outline: none;
-    background: transparent;
     height: 140px;
     resize: none;
-    text-transform: lowercase;
   }
 
   .contact-form button {
@@ -124,10 +120,25 @@
     height: 380px;
     border: none;
   }
+
+  /* NOISE LAYER */
+  #noise {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.18;
+  }
 </style>
 </head>
 
 <body>
+
+<!-- NOISE CANVAS -->
+<canvas id="noise"></canvas>
 
 <div class="container">
 
@@ -141,16 +152,12 @@
     <div class="menu-item" onclick="toggle('mixing')">mixing</div>
     <div id="mixing" class="dropdown">
       <p><strong>safe mixes get ignored. i don’t make those.</strong></p>
-      <br />
-
       <p>rate: $450 per track</p>
       <p>ep / album - contact</p>
-      <br />
-
-      <p><strong>built by an artist, not just an engineer</strong></p>
-      <p><italic>*masters included</p>
-      <p>*live stems for backing tracks included</p>
-      <p>*production additions if needed to make it hit harder</italic></p>
+      <p>built by an artist, not just an engineer</p>
+      <p>- master included</p>
+      <p>- live stems for backing tracks</p>
+      <p>- production tweaks if needed</p>
     </div>
 
     <!-- PRODUCTION -->
@@ -158,6 +165,9 @@
     <div id="production" class="dropdown">
       <p>production & songwriting</p>
       <p>$300 / day (online or in person)</p>
+      <p>live set production</p>
+      <p>- song transitions</p>
+      <p>- session setup in any daw</p>
     </div>
 
     <!-- WORK WITH ME -->
@@ -180,7 +190,6 @@
 
   </div>
 
-  <!-- RIGHT SIDE (ONLY PLAYER) -->
   <div class="right">
 
     <iframe
@@ -204,6 +213,36 @@
 
     target.classList.toggle('open');
   }
+</script>
+
+<script>
+const canvas = document.getElementById("noise");
+const ctx = canvas.getContext("2d");
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener("resize", resize);
+
+function drawNoise() {
+  const imageData = ctx.createImageData(canvas.width, canvas.height);
+  const buffer = imageData.data;
+
+  for (let i = 0; i < buffer.length; i += 4) {
+    const value = Math.random() * 255;
+    buffer[i] = value;
+    buffer[i + 1] = value;
+    buffer[i + 2] = value;
+    buffer[i + 3] = 18;
+  }
+
+  ctx.putImageData(imageData, 0, 0);
+  requestAnimationFrame(drawNoise);
+}
+
+drawNoise();
 </script>
 
 </body>
