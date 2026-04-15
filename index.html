@@ -58,13 +58,6 @@
     margin-top: 10px;
   }
 
-  .contact-form h2 {
-    font-size: 24px;
-    font-weight: normal;
-    margin-bottom: 10px;
-    text-transform: lowercase;
-  }
-
   .contact-form input {
     font-size: 18px;
     padding: 12px 0;
@@ -110,6 +103,19 @@
     align-items: center;
     justify-content: center;
     border-left: 1px solid #eee;
+    padding: 40px;
+  }
+
+  /* CLEAN PLAYER WRAPPER */
+  .player {
+    width: 100%;
+    max-width: 600px;
+  }
+
+  iframe {
+    width: 100%;
+    height: 180px;
+    border: none;
   }
 </style>
 </head>
@@ -122,12 +128,12 @@
 
     <!-- MIXING -->
     <div class="menu-item" onclick="toggle('mixing')">mixing</div>
-    <div id=">mixing" class="dropdown">
+    <div id="mixing" class="dropdown">
       <p><strong>safe mixes get ignored. i don’t make those.</strong></p>
-      <br />
+
       <p>rate: $450 per track</p>
       <p>ep / album - contact</p>
-      <br />
+
       <p>built by an artist - not just an engineer:</p>
       <p>- master included</p>
       <p>- live stems for backing tracks</p>
@@ -136,7 +142,7 @@
 
     <!-- PRODUCTION -->
     <div class="menu-item" onclick="toggle('production')">production</div>
-    <div id=">production" class="dropdown">
+    <div id="production" class="dropdown">
       <p>production & songwriting</p>
       <p>$300 / day (online or in person)</p>
 
@@ -147,11 +153,9 @@
 
     <!-- WORK WITH ME -->
     <div class="menu-item" onclick="toggle('contact')">work with me</div>
-    <div id=">contact" class="dropdown">
+    <div id="contact" class="dropdown">
 
       <form action="https://formspree.io/f/mzdyzwgj" method="POST" class="contact-form">
-
-        <p>shoot me a message</p>
 
         <input type="text" name="name" placeholder="name (required)" required>
         <input type="text" name="artist" placeholder="artist name (required)" required>
@@ -168,7 +172,15 @@
   </div>
 
   <div class="right">
-    <p>audio player here</p>
+
+    <div class="player">
+
+      <iframe
+        src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/soundcloud%3Aplaylists%3A2222329844%3Fsecret_token%3Ds-lrqDF0TTCnR&color=%23000000&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false">
+      </iframe>
+
+    </div>
+
   </div>
 
 </div>
