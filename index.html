@@ -100,6 +100,7 @@
     cursor: pointer;
     text-transform: lowercase;
     transition: 0.2s ease;
+    color: #000; /* FIX: visibility */
   }
 
   .contact-form button:hover {
@@ -174,7 +175,7 @@
     .right {
       width: 100%;
       padding: 20px 20px 40px 20px;
-      display: block; /* 🔥 critical fix */
+      display: block;
     }
 
     .right-inner {
@@ -228,7 +229,7 @@
     </div>
 
     <div class="menu-item" onclick="toggle('production')">production</div>
-    <div id="production & writting" class="dropdown">
+    <div id="production" class="dropdown">
       <p>turn any demo into a finished record</p>
       <p>arrangement, instrumentation, and production built around the song</p>
       <br />
