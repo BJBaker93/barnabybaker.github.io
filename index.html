@@ -97,10 +97,10 @@
     font-size: 14px;
     background: none;
     border: 1px solid #000;
+    color: #000; /* FIX */
     cursor: pointer;
     text-transform: lowercase;
     transition: 0.2s ease;
-    color: #000; /* FIX: visibility */
   }
 
   .contact-form button:hover {
@@ -147,31 +147,22 @@
     mix-blend-mode: multiply;
   }
 
-  /* MOBILE FIXED */
+  /* MOBILE */
   @media (max-width: 768px) {
 
-    body {
-      overflow: auto;
-    }
+    body { overflow: auto; }
 
     .container {
       flex-direction: column;
       height: auto;
     }
 
-    /* NAV TOP LEFT */
     .left {
       width: 100%;
       padding: 30px 20px 10px 20px;
-      justify-content: flex-start;
       align-items: flex-start;
     }
 
-    .identity {
-      margin-bottom: 25px;
-    }
-
-    /* PLAYER UNDER NAV */
     .right {
       width: 100%;
       padding: 20px 20px 40px 20px;
@@ -187,10 +178,8 @@
     iframe {
       width: 100%;
       height: 280px;
-      border-radius: 12px;
     }
   }
-
 </style>
 </head>
 
@@ -209,22 +198,12 @@
     <div class="menu-item" onclick="toggle('mixing')">mixing</div>
     <div id="mixing" class="dropdown">
       <p><strong>safe mixes get ignored. i make records feel undeniable.</strong></p>
-
-      <br />
-
       <p>48h turnaround</p>
       <p>$450 per track</p>
       <p>ep / album - contact</p>
       <p><strong>limited spots each week</strong></p>
-
-      <br />
-
       <p><strong>built by an artist, not just an engineer</strong></p>
-
       <p>i shape records around clarity, emotion, and impact - pushing things forward without losing the feel</p>
-
-      <br />
-
       <p>if you’ve got something coming up, send it over</p>
     </div>
 
@@ -232,7 +211,6 @@
     <div id="production" class="dropdown">
       <p>turn any demo into a finished record</p>
       <p>arrangement, instrumentation, and production built around the song</p>
-      <br />
       <p>$300 / day (online or in person)</p>
     </div>
 
@@ -244,7 +222,6 @@
         <input type="text" name="name" placeholder="name (required)" required>
         <input type="text" name="artist" placeholder="artist name (required)" required>
         <input type="email" name="email" placeholder="email address (required)" required>
-
         <textarea name="message" placeholder="message (required)" required></textarea>
 
         <button type="submit">submit</button>
@@ -259,9 +236,7 @@
     <div class="right-inner">
 
       <iframe
-        src="https://open.spotify.com/embed/playlist/2Lom1NlMFpFxvv8zDj46XB?utm_source=generator&theme=0"
-        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-        loading="lazy">
+        src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/soundcloud%3Aplaylists%3A2222329844%3Fsecret_token%3Ds-lrqDF0TTCnR&color=%235c5c5c&auto_play=true&hide_related=false&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=true">
       </iframe>
 
     </div>
@@ -280,54 +255,6 @@ function toggle(id) {
 
   target.classList.toggle('open');
 }
-</script>
-
-<script>
-const canvas = document.getElementById("noise");
-const ctx = canvas.getContext("2d");
-
-const SCALE = 0.4;
-
-function resize() {
-  canvas.width = window.innerWidth * SCALE;
-  canvas.height = window.innerHeight * SCALE;
-
-  canvas.style.width = window.innerWidth + "px";
-  canvas.style.height = window.innerHeight + "px";
-}
-
-resize();
-window.addEventListener("resize", resize);
-
-function gaussianRandom() {
-  let u = 0, v = 0;
-  while (u === 0) u = Math.random();
-  while (v === 0) v = Math.random();
-  return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
-}
-
-function drawNoise() {
-  const imageData = ctx.createImageData(canvas.width, canvas.height);
-  const buffer = imageData.data;
-
-  for (let i = 0; i < buffer.length; i += 4) {
-    let base = 128 + gaussianRandom() * 22;
-    base = Math.max(0, Math.min(255, base));
-
-    const grain = gaussianRandom() * 6;
-
-    buffer[i]     = base + grain;
-    buffer[i + 1] = base + grain;
-    buffer[i + 2] = base + grain;
-
-    buffer[i + 3] = 38;
-  }
-
-  ctx.putImageData(imageData, 0, 0);
-  requestAnimationFrame(drawNoise);
-}
-
-drawNoise();
 </script>
 
 </body>
