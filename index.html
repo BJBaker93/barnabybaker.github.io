@@ -19,6 +19,7 @@ html, body {
   color: #000;
 }
 
+/* LAYOUT */
 .container {
   display: flex;
   height: 100vh;
@@ -27,17 +28,14 @@ html, body {
   z-index: 2;
 }
 
-/* ASCII */
+/* ASCII BACKGROUND */
 #ascii {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   pointer-events: none;
   z-index: 1;
   font-family: monospace;
-  font-size: 24px; /* 🔥 doubled */
+  font-size: 24px;
   line-height: 24px;
   color: rgba(0,0,0,0.10);
   white-space: pre;
@@ -50,6 +48,8 @@ html, body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  overflow: hidden;
+  z-index: 2;
 }
 
 .identity {
@@ -136,26 +136,22 @@ html, body {
 iframe {
   width: 100%;
   height: 300px;
-  border-radius: 12px;
   border: none;
+  border-radius: 12px;
 }
 
 /* NOISE */
 #noise {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   pointer-events: none;
   z-index: 9999;
   opacity: 0.22;
   mix-blend-mode: multiply;
 }
 
-/* MOBILE */
+/* MOBILE LOCKDOWN */
 @media (max-width: 768px) {
-
   .container { flex-direction: column; }
 
   .left {
@@ -181,45 +177,48 @@ iframe {
 
 <div class="container">
 
-<div class="left">
-  <div class="identity">barnaby baker - mix engineer</div>
+  <div class="left">
 
-  <div class="menu-item" onclick="toggle('mixing')">mixing</div>
-  <div id="mixing" class="dropdown">
-    <p><strong>safe mixes get ignored. i make records feel undeniable.</strong></p>
-    <p>48h turnaround</p>
-    <p>$450 per track</p>
-    <p>ep / album - contact</p>
-    <p><strong>limited spots each week</strong></p>
-    <p><strong>built by an artist, not just an engineer</strong></p>
-    <p>i shape records around clarity, emotion, and impact - pushing things forward without losing the feel</p>
-    <p>if you’ve got something coming up, send it over</p>
+    <div class="identity">barnaby baker - mix engineer</div>
+
+    <div class="menu-item" onclick="toggle('mixing')">mixing</div>
+    <div id="mixing" class="dropdown">
+      <p><strong>safe mixes get ignored. i make records feel undeniable.</strong></p>
+      <p>48h turnaround</p>
+      <p>$450 per track</p>
+      <p>ep / album - contact</p>
+      <p><strong>limited spots each week</strong></p>
+      <p>i shape records around clarity, emotion, and impact - pushing things forward without losing the feel</p>
+      <p>if you’ve got something coming up, send it over</p>
+    </div>
+
+    <div class="menu-item" onclick="toggle('production')">production</div>
+    <div id="production" class="dropdown">
+      <p>turn any demo into a finished record</p>
+      <p>arrangement, instrumentation, and production built around the song</p>
+      <p>$300 / day</p>
+    </div>
+
+    <div class="menu-item" onclick="toggle('contact')">work with me</div>
+    <div id="contact" class="dropdown">
+
+      <form action="https://formspree.io/f/mzdyzwgj" method="POST" class="contact-form">
+        <input type="text" name="name" placeholder="name (required)" required>
+        <input type="text" name="artist" placeholder="artist name (required)" required>
+        <input type="email" name="email" placeholder="email address (required)" required>
+        <textarea name="message" placeholder="message (required)" required></textarea>
+        <button type="submit" style="color:#000;">submit</button>
+      </form>
+
+    </div>
+
   </div>
 
-  <div class="menu-item" onclick="toggle('production')">production</div>
-  <div id="production" class="dropdown">
-    <p>turn any demo into a finished record</p>
-    <p>arrangement, instrumentation, and production built around the song</p>
-    <p>$300 / day (online or in person)</p>
+  <div class="right">
+    <div class="right-inner">
+      <iframe src="https://open.spotify.com/embed/playlist/2Lom1NlMFpFxvv8zDj46XB?theme=0"></iframe>
+    </div>
   </div>
-
-  <div class="menu-item" onclick="toggle('contact')">work with me</div>
-  <div id="contact" class="dropdown">
-    <form action="https://formspree.io/f/mzdyzwgj" method="POST" class="contact-form">
-      <input type="text" name="name" placeholder="name (required)" required>
-      <input type="text" name="artist" placeholder="artist name (required)" required>
-      <input type="email" name="email" placeholder="email address (required)" required>
-      <textarea name="message" placeholder="message (required)" required></textarea>
-      <button type="submit">submit</button>
-    </form>
-  </div>
-</div>
-
-<div class="right">
-  <div class="right-inner">
-    <iframe src="https://open.spotify.com/embed/playlist/2Lom1NlMFpFxvv8zDj46XB?theme=0"></iframe>
-  </div>
-</div>
 
 </div>
 
@@ -234,12 +233,13 @@ function toggle(id) {
 
 <script>
 /* ASCII SYSTEM */
-
 const ascii = document.getElementById("ascii");
 
 const symbols = [" ", ".", "-", ":", "~", "+", "*", "=", "%", "#", "@", "&", "^"];
 
-let cols, rows, grid = [], ripples = [];
+let cols, rows;
+let grid = [];
+let ripples = [];
 
 function setup() {
   const size = 24;
@@ -265,14 +265,12 @@ function render() {
 }
 
 function update() {
-  // decay
   for (let y = 0; y < rows; y++) {
     for (let x = 0; x < cols; x++) {
-      if (grid[y][x] > 0) grid[y][x] -= 0.05; // 🔥 slower decay
+      if (grid[y][x] > 0) grid[y][x] -= 0.05;
     }
   }
 
-  // ripples
   ripples.forEach(r => {
     r.radius += r.speed;
 
@@ -281,7 +279,6 @@ function update() {
         const dx = x - r.cx;
         const dy = y - r.cy;
         const d = Math.sqrt(dx*dx + dy*dy);
-
         const diff = Math.abs(d - r.radius);
 
         if (diff < 3) {
@@ -290,7 +287,6 @@ function update() {
       }
     }
 
-    // bounce
     if (r.radius > r.max) r.speed *= -0.6;
   });
 
@@ -310,12 +306,11 @@ function spawnRipple() {
 
 setup();
 update();
-
 window.addEventListener("resize", setup);
 
 setInterval(() => {
   spawnRipple();
-  if (Math.random() > 0.5) spawnRipple(); // sometimes double
+  if (Math.random() > 0.5) spawnRipple();
 }, 5000);
 </script>
 
@@ -330,11 +325,13 @@ function resizeNoise() {
   canvas.style.width = window.innerWidth + "px";
   canvas.style.height = window.innerHeight + "px";
 }
+
 resizeNoise();
 window.addEventListener("resize", resizeNoise);
 
 function drawNoise() {
   const img = ctx.createImageData(canvas.width, canvas.height);
+
   for (let i = 0; i < img.data.length; i += 4) {
     const v = 128 + Math.random() * 40;
     img.data[i] = v;
@@ -342,9 +339,11 @@ function drawNoise() {
     img.data[i+2] = v;
     img.data[i+3] = 38;
   }
+
   ctx.putImageData(img, 0, 0);
   requestAnimationFrame(drawNoise);
 }
+
 drawNoise();
 </script>
 
