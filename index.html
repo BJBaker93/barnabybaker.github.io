@@ -235,7 +235,7 @@ function toggle(id) {
 /* ASCII SYSTEM */
 const ascii = document.getElementById("ascii");
 
-const symbols = [" ", ".", "-", ":", "~", "+", "*", "=", "%", "#", "@", "&", "^"];
+const symbols = [" ", ".", "-", ":", "~", "+", "*", "=", "%", "#", "@", "&", "X", "F", "0", "^"];
 
 let cols, rows;
 let grid = [];
@@ -299,7 +299,7 @@ function spawnRipple() {
     cx: Math.random() * cols,
     cy: Math.random() * rows,
     radius: 0,
-    speed: 0.4 + Math.random() * 0.4,
+    speed: 0.2 + Math.random() * 0.6,
     max: Math.max(cols, rows)
   });
 }
@@ -311,7 +311,7 @@ window.addEventListener("resize", setup);
 /* ONE CLEAN RIPPLE EVERY 5 SECONDS */
 setInterval(() => {
   spawnRipple();
-}, 5000);
+}, 9000);
 </script>
 
 <script>
