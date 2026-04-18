@@ -27,17 +27,14 @@ html, body {
   z-index: 2;
 }
 
-/* ASCII */
+/* ASCII FIELD */
 #ascii {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   pointer-events: none;
   z-index: 1;
   font-family: monospace;
-  font-size: 24px; /* 🔥 doubled */
+  font-size: 24px;
   line-height: 24px;
   color: rgba(0,0,0,0.10);
   white-space: pre;
@@ -100,23 +97,12 @@ html, body {
   width: 100%;
 }
 
-.contact-form textarea {
-  height: 100px;
-  resize: none;
-}
-
 .contact-form button {
   margin-top: 10px;
   padding: 10px 0;
   border: 1px solid #000;
   background: none;
   color: #000;
-  cursor: pointer;
-}
-
-.contact-form button:hover {
-  background: #000;
-  color: #fff;
 }
 
 /* RIGHT */
@@ -128,11 +114,6 @@ html, body {
   padding-top: 100px;
 }
 
-.right-inner {
-  width: 100%;
-  max-width: 580px;
-}
-
 iframe {
   width: 100%;
   height: 300px;
@@ -140,43 +121,11 @@ iframe {
   border: none;
 }
 
-/* NOISE */
-#noise {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 9999;
-  opacity: 0.22;
-  mix-blend-mode: multiply;
-}
-
-/* MOBILE */
-@media (max-width: 768px) {
-
-  .container { flex-direction: column; }
-
-  .left {
-    width: 100%;
-    padding: 25px 20px 10px 20px;
-  }
-
-  .right {
-    width: 100%;
-    padding: 10px 20px 20px 20px;
-  }
-
-  iframe { height: 260px; }
-}
-
 </style>
 </head>
 
 <body>
 
-<canvas id="noise"></canvas>
 <div id="ascii"></div>
 
 <div class="container">
@@ -191,55 +140,67 @@ iframe {
     <p>$450 per track</p>
     <p>ep / album - contact</p>
     <p><strong>limited spots each week</strong></p>
-    <p><strong>built by an artist, not just an engineer</strong></p>
-    <p>i shape records around clarity, emotion, and impact - pushing things forward without losing the feel</p>
-    <p>if you’ve got something coming up, send it over</p>
+    <p>clarity, emotion, impact - nothing wasted</p>
   </div>
 
   <div class="menu-item" onclick="toggle('production')">production</div>
   <div id="production" class="dropdown">
     <p>turn any demo into a finished record</p>
-    <p>arrangement, instrumentation, and production built around the song</p>
-    <p>$300 / day (online or in person)</p>
+    <p>arrangement, instrumentation, production</p>
+    <p>$300 / day</p>
   </div>
 
   <div class="menu-item" onclick="toggle('contact')">work with me</div>
   <div id="contact" class="dropdown">
-    <form action="https://formspree.io/f/mzdyzwgj" method="POST" class="contact-form">
-      <input type="text" name="name" placeholder="name (required)" required>
-      <input type="text" name="artist" placeholder="artist name (required)" required>
-      <input type="email" name="email" placeholder="email address (required)" required>
-      <textarea name="message" placeholder="message (required)" required></textarea>
+    <form class="contact-form">
+      <input placeholder="name" required>
+      <input placeholder="artist name" required>
+      <input placeholder="email" required>
+      <textarea placeholder="message" required></textarea>
       <button type="submit">submit</button>
     </form>
   </div>
 </div>
 
 <div class="right">
-  <div class="right-inner">
-    <iframe src="https://open.spotify.com/embed/playlist/2Lom1NlMFpFxvv8zDj46XB?theme=0"></iframe>
-  </div>
+  <iframe src="https://open.spotify.com/embed/playlist/2Lom1NlMFpFxvv8zDj46XB?theme=0"></iframe>
 </div>
 
 </div>
 
 <script>
 function toggle(id) {
-  document.querySelectorAll('.dropdown').forEach(el => {
-    if (el.id !== id) el.classList.remove('open');
+  document.querySelectorAll('.dropdown').forEach(d => {
+    if (d.id !== id) d.classList.remove('open');
   });
   document.getElementById(id).classList.toggle('open');
 }
 </script>
 
 <script>
-/* ASCII SYSTEM */
+/* =========================
+   ASCII FIELD (UPGRADED)
+========================= */
 
 const ascii = document.getElementById("ascii");
 
-const symbols = [" ", ".", "-", ":", "~", "+", "*", "=", "%", "#", "@", "&", "^"];
+const symbols = [
+" ", ".", ",", "-", "_", ":", ";", "~",
+"^", "*", "+", "=", "!", "?", "/", "\\",
+"|", "<", ">", "(", ")", "[", "]",
+"{", "}", "@", "#", "%", "&", "$",
+"0","1","2","3","4","5","6","7","8","9",
+"a","b","c","d","e","f","g","h","i","j",
+"k","l","m","n","o","p","q","r","s","t",
+"u","v","w","x","y","z",
+"░","▒","▓","█"
+];
 
-let cols, rows, grid = [], ripples = [];
+let cols, rows;
+let grid = [];
+let energy = [];
+
+let ripples = [];
 
 function setup() {
   const size = 24;
@@ -249,53 +210,67 @@ function setup() {
   grid = Array.from({ length: rows }, () =>
     Array.from({ length: cols }, () => 0)
   );
+
+  energy = Array.from({ length: rows }, () =>
+    Array.from({ length: cols }, () => 0)
+  );
 }
 
-function render() {
+function draw() {
   let out = "";
+
   for (let y = 0; y < rows; y++) {
     let line = "";
     for (let x = 0; x < cols; x++) {
-      const i = Math.floor(grid[y][x]);
-      line += symbols[i] || " ";
+
+      let e = energy[y][x];
+
+      // decay
+      e *= 0.92;
+      energy[y][x] = e;
+
+      // map energy → symbol index
+      let idx = Math.floor(e * (symbols.length - 1));
+      idx = Math.max(0, Math.min(symbols.length - 1, idx));
+
+      line += symbols[idx];
     }
     out += line + "\n";
   }
+
   ascii.textContent = out;
 }
 
-function update() {
-  // decay
-  for (let y = 0; y < rows; y++) {
-    for (let x = 0; x < cols; x++) {
-      if (grid[y][x] > 0) grid[y][x] -= 0.05; // 🔥 slower decay
-    }
-  }
+function updateRipples() {
 
-  // ripples
   ripples.forEach(r => {
+
     r.radius += r.speed;
 
     for (let y = 0; y < rows; y++) {
       for (let x = 0; x < cols; x++) {
+
         const dx = x - r.cx;
         const dy = y - r.cy;
         const d = Math.sqrt(dx*dx + dy*dy);
 
-        const diff = Math.abs(d - r.radius);
+        const wave = Math.sin(d - r.radius);
 
-        if (diff < 3) {
-          grid[y][x] = Math.max(grid[y][x], 10 - diff * 2);
-        }
+        const influence = Math.max(0, wave) * r.power;
+
+        energy[y][x] = Math.min(1, energy[y][x] + influence);
       }
     }
 
-    // bounce
-    if (r.radius > r.max) r.speed *= -0.6;
+    // slow bounce + fade
+    if (r.radius > r.max) {
+      r.speed *= -0.7;
+      r.power *= 0.9;
+    }
   });
 
-  render();
-  requestAnimationFrame(update);
+  // remove dead ripples
+  ripples = ripples.filter(r => r.power > 0.02);
 }
 
 function spawnRipple() {
@@ -303,49 +278,27 @@ function spawnRipple() {
     cx: Math.random() * cols,
     cy: Math.random() * rows,
     radius: 0,
-    speed: 0.4 + Math.random() * 0.4,
-    max: Math.max(cols, rows)
+    speed: 0.2 + Math.random() * 0.25, // slower
+    power: 0.8 + Math.random() * 0.4,
+    max: Math.max(cols, rows) * 1.2
   });
 }
 
-setup();
-update();
+function loop() {
+  updateRipples();
+  draw();
+  requestAnimationFrame(loop);
+}
 
-window.addEventListener("resize", setup);
+setup();
+loop();
 
 setInterval(() => {
   spawnRipple();
-  if (Math.random() > 0.5) spawnRipple(); // sometimes double
+  if (Math.random() > 0.6) spawnRipple();
 }, 5000);
-</script>
 
-<script>
-/* NOISE */
-const canvas = document.getElementById("noise");
-const ctx = canvas.getContext("2d");
-
-function resizeNoise() {
-  canvas.width = window.innerWidth * 0.4;
-  canvas.height = window.innerHeight * 0.4;
-  canvas.style.width = window.innerWidth + "px";
-  canvas.style.height = window.innerHeight + "px";
-}
-resizeNoise();
-window.addEventListener("resize", resizeNoise);
-
-function drawNoise() {
-  const img = ctx.createImageData(canvas.width, canvas.height);
-  for (let i = 0; i < img.data.length; i += 4) {
-    const v = 128 + Math.random() * 40;
-    img.data[i] = v;
-    img.data[i+1] = v;
-    img.data[i+2] = v;
-    img.data[i+3] = 38;
-  }
-  ctx.putImageData(img, 0, 0);
-  requestAnimationFrame(drawNoise);
-}
-drawNoise();
+window.addEventListener("resize", setup);
 </script>
 
 </body>
