@@ -19,6 +19,7 @@ html, body {
   color: #000;
 }
 
+/* LAYOUT */
 .container {
   display: flex;
   height: 100vh;
@@ -47,6 +48,7 @@ html, body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  overflow: hidden;
   z-index: 2;
 }
 
@@ -148,7 +150,7 @@ iframe {
   mix-blend-mode: multiply;
 }
 
-/* MOBILE */
+/* MOBILE LOCKDOWN */
 @media (max-width: 768px) {
   .container { flex-direction: column; }
 
@@ -175,44 +177,48 @@ iframe {
 
 <div class="container">
 
-<div class="left">
-  <div class="identity">barnaby baker - mix engineer</div>
+  <div class="left">
 
-  <div class="menu-item" onclick="toggle('mixing')">mixing</div>
-  <div id="mixing" class="dropdown">
-    <p><strong>safe mixes get ignored. i make records feel undeniable.</strong></p>
-    <p>48h turnaround</p>
-    <p>$450 per track</p>
-    <p>ep / album - contact</p>
-    <p><strong>limited spots each week</strong></p>
-    <p>i shape records around clarity, emotion, and impact - pushing things forward without losing the feel</p>
-    <p>if you’ve got something coming up, send it over</p>
+    <div class="identity">barnaby baker - mix engineer</div>
+
+    <div class="menu-item" onclick="toggle('mixing')">mixing</div>
+    <div id="mixing" class="dropdown">
+      <p><strong>safe mixes get ignored. i make records feel undeniable.</strong></p>
+      <p>48h turnaround</p>
+      <p>$450 per track</p>
+      <p>ep / album - contact</p>
+      <p><strong>limited spots each week</strong></p>
+      <p>i shape records around clarity, emotion, and impact - pushing things forward without losing the feel</p>
+      <p>if you’ve got something coming up, send it over</p>
+    </div>
+
+    <div class="menu-item" onclick="toggle('production')">production</div>
+    <div id="production" class="dropdown">
+      <p>turn any demo into a finished record</p>
+      <p>arrangement, instrumentation, and production built around the song</p>
+      <p>$300 / day</p>
+    </div>
+
+    <div class="menu-item" onclick="toggle('contact')">work with me</div>
+    <div id="contact" class="dropdown">
+
+      <form action="https://formspree.io/f/mzdyzwgj" method="POST" class="contact-form">
+        <input type="text" name="name" placeholder="name (required)" required>
+        <input type="text" name="artist" placeholder="artist name (required)" required>
+        <input type="email" name="email" placeholder="email address (required)" required>
+        <textarea name="message" placeholder="message (required)" required></textarea>
+        <button type="submit" style="color:#000;">submit</button>
+      </form>
+
+    </div>
+
   </div>
 
-  <div class="menu-item" onclick="toggle('production')">production</div>
-  <div id="production" class="dropdown">
-    <p>turn any demo into a finished record</p>
-    <p>arrangement, instrumentation, and production built around the song</p>
-    <p>$300 / day (online or in person)</p>
+  <div class="right">
+    <div class="right-inner">
+      <iframe src="https://open.spotify.com/embed/playlist/2Lom1NlMFpFxvv8zDj46XB?theme=0"></iframe>
+    </div>
   </div>
-
-  <div class="menu-item" onclick="toggle('contact')">work with me</div>
-  <div id="contact" class="dropdown">
-    <form action="https://formspree.io/f/mzdyzwgj" method="POST" class="contact-form">
-      <input type="text" name="name" placeholder="name (required)" required>
-      <input type="text" name="artist" placeholder="artist name (required)" required>
-      <input type="email" name="email" placeholder="email address (required)" required>
-      <textarea name="message" placeholder="message (required)" required></textarea>
-      <button type="submit">submit</button>
-    </form>
-  </div>
-</div>
-
-<div class="right">
-  <div class="right-inner">
-    <iframe src="https://open.spotify.com/embed/playlist/2Lom1NlMFpFxvv8zDj46XB?theme=0"></iframe>
-  </div>
-</div>
 
 </div>
 
@@ -226,8 +232,7 @@ function toggle(id) {
 </script>
 
 <script>
-/* ASCII SYSTEM - FINAL VERSION */
-
+/* ASCII SYSTEM */
 const ascii = document.getElementById("ascii");
 
 const symbols = [" ", ".", "-", ":", "~", "+", "*", "=", "%", "#", "@", "&", "^"];
@@ -248,7 +253,6 @@ function setup() {
 
 function render() {
   let out = "";
-
   for (let y = 0; y < rows; y++) {
     let line = "";
     for (let x = 0; x < cols; x++) {
@@ -257,62 +261,34 @@ function render() {
     }
     out += line + "\n";
   }
-
   ascii.textContent = out;
 }
 
 function update() {
-
-  // decay field
   for (let y = 0; y < rows; y++) {
     for (let x = 0; x < cols; x++) {
-      grid[y][x] *= 0.90;
+      if (grid[y][x] > 0) grid[y][x] -= 0.05;
     }
   }
 
   ripples.forEach(r => {
-
     r.radius += r.speed;
 
     for (let y = 0; y < rows; y++) {
       for (let x = 0; x < cols; x++) {
-
         const dx = x - r.cx;
         const dy = y - r.cy;
-        const d = Math.sqrt(dx * dx + dy * dy);
+        const d = Math.sqrt(dx*dx + dy*dy);
+        const diff = Math.abs(d - r.radius);
 
-        const diff = d - r.radius;
-
-        // wide, soft, full-screen capable wave
-        const front = Math.exp(-Math.pow(diff * 0.6, 2));
-        const body  = Math.exp(-Math.pow(diff * 0.18, 2));
-        const tail  = Math.exp(-Math.pow(diff * 0.08, 2));
-
-        const intensity = (front * 1.4) + (body * 1.0) + (tail * 0.6);
-
-        if (intensity > 0.02) {
-
-          const existing = grid[y][x];
-
-          let value;
-
-          if (intensity > 1.2) {
-            value = 10 + Math.floor(Math.random() * 3);
-          } else if (intensity > 0.6) {
-            value = 6 + Math.floor(Math.random() * 4);
-          } else {
-            value = 2 + Math.floor(Math.random() * 4);
-          }
-
-          grid[y][x] = Math.max(existing, value * intensity);
+        if (diff < 3) {
+          grid[y][x] = Math.max(grid[y][x], 10 - diff * 2);
         }
       }
     }
 
-    if (r.radius > r.max * 1.35) r.dead = true;
+    if (r.radius > r.max) r.speed *= -0.6;
   });
-
-  ripples = ripples.filter(r => !r.dead);
 
   render();
   requestAnimationFrame(update);
@@ -323,23 +299,19 @@ function spawnRipple() {
     cx: Math.random() * cols,
     cy: Math.random() * rows,
     radius: 0,
-    speed: 0.18 + Math.random() * 0.12,
+    speed: 0.4 + Math.random() * 0.4,
     max: Math.max(cols, rows)
   });
-}
-
-/* 5–7 sec spacing */
-function scheduleRipple() {
-  spawnRipple();
-  const delay = 5000 + Math.random() * 2000;
-  setTimeout(scheduleRipple, delay);
 }
 
 setup();
 update();
 window.addEventListener("resize", setup);
 
-scheduleRipple();
+setInterval(() => {
+  spawnRipple();
+  if (Math.random() > 0.5) spawnRipple();
+}, 5000);
 </script>
 
 <script>
