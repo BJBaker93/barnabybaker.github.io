@@ -37,7 +37,7 @@ html, body {
   font-family: monospace;
   font-size: 24px;
   line-height: 24px;
-  color: rgba(0,0,0,0.10);
+  color: rgba(0,0,0,0.06);
   white-space: pre;
 }
 
@@ -308,9 +308,9 @@ setup();
 update();
 window.addEventListener("resize", setup);
 
+/* ONE CLEAN RIPPLE EVERY 5 SECONDS */
 setInterval(() => {
   spawnRipple();
-  if (Math.random() > 0.5) spawnRipple();
 }, 5000);
 </script>
 
