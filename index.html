@@ -7,183 +7,169 @@
 
 <style>
 
-  * {
-    box-sizing: border-box;
-  }
+* { box-sizing: border-box; }
 
-  html, body {
-    margin: 0;
-    height: 100%;
-    overflow: hidden;
-    touch-action: none;
-    font-family: Helvetica, Arial, sans-serif;
-    background: #fff;
-    color: #000;
-  }
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  touch-action: none;
+  font-family: Helvetica, Arial, sans-serif;
+  background: #fff;
+  color: #000;
+}
 
-  .container {
-    display: flex;
-    height: 100vh;
-    width: 100vw;
-    overflow: hidden;
-    position: relative;
-    z-index: 2;
-  }
+.container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  z-index: 2;
+}
 
-  /* ASCII LAYER */
-  #ascii {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 1;
-    font-family: monospace;
-    font-size: 12px;
-    line-height: 12px;
-    color: rgba(0,0,0,0.12);
-    white-space: pre;
-    overflow: hidden;
-  }
+/* ASCII */
+#ascii {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  font-family: monospace;
+  font-size: 24px; /* 🔥 doubled */
+  line-height: 24px;
+  color: rgba(0,0,0,0.10);
+  white-space: pre;
+}
 
-  /* LEFT */
+/* LEFT */
+.left {
+  width: 40%;
+  padding: 60px 60px 60px 110px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.identity {
+  font-size: 16px;
+  margin-bottom: 40px;
+  opacity: 0.7;
+}
+
+.menu-item {
+  font-size: 18px;
+  cursor: pointer;
+  margin-bottom: 14px;
+}
+
+.menu-item::before { content: "> "; }
+
+.dropdown {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+  font-size: 15px;
+}
+
+.dropdown.open {
+  max-height: 40vh;
+  overflow-y: auto;
+}
+
+.dropdown p {
+  margin: 10px 0;
+  line-height: 1.5;
+}
+
+/* FORM */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.contact-form input,
+.contact-form textarea {
+  font-size: 15px;
+  padding: 8px 0;
+  border: none;
+  border-bottom: 1px solid #000;
+  background: transparent;
+  width: 100%;
+}
+
+.contact-form textarea {
+  height: 100px;
+  resize: none;
+}
+
+.contact-form button {
+  margin-top: 10px;
+  padding: 10px 0;
+  border: 1px solid #000;
+  background: none;
+  color: #000;
+  cursor: pointer;
+}
+
+.contact-form button:hover {
+  background: #000;
+  color: #fff;
+}
+
+/* RIGHT */
+.right {
+  width: 60%;
+  display: flex;
+  align-items: center;
+  padding-left: 40px;
+  padding-top: 100px;
+}
+
+.right-inner {
+  width: 100%;
+  max-width: 580px;
+}
+
+iframe {
+  width: 100%;
+  height: 300px;
+  border-radius: 12px;
+  border: none;
+}
+
+/* NOISE */
+#noise {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.22;
+  mix-blend-mode: multiply;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+
+  .container { flex-direction: column; }
+
   .left {
-    width: 40%;
-    padding: 60px 60px 60px 110px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .identity {
-    font-size: 16px;
-    margin-bottom: 40px;
-    opacity: 0.7;
-  }
-
-  .menu-item {
-    font-size: 18px;
-    cursor: pointer;
-    margin-bottom: 14px;
-  }
-
-  .menu-item::before {
-    content: "> ";
-  }
-
-  .dropdown {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.35s ease;
-    font-size: 15px;
-  }
-
-  .dropdown.open {
-    max-height: 40vh;
-    overflow-y: auto;
-  }
-
-  .dropdown p {
-    margin: 10px 0;
-    line-height: 1.5;
-    word-wrap: break-word;
-  }
-
-  /* FORM */
-  .contact-form {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-
-  .contact-form input,
-  .contact-form textarea {
-    font-size: 15px;
-    padding: 8px 0;
-    border: none;
-    border-bottom: 1px solid #000;
-    outline: none;
-    background: transparent;
     width: 100%;
+    padding: 25px 20px 10px 20px;
   }
 
-  .contact-form textarea {
-    height: 100px;
-    resize: none;
-  }
-
-  .contact-form button {
-    margin-top: 10px;
-    padding: 10px 0;
-    background: none;
-    border: 1px solid #000;
-    color: #000;
-    cursor: pointer;
-  }
-
-  .contact-form button:hover {
-    background: #000;
-    color: #fff;
-  }
-
-  /* RIGHT */
   .right {
-    width: 60%;
-    display: flex;
-    align-items: center;
-    padding-left: 40px;
-    padding-top: 100px;
-  }
-
-  .right-inner {
     width: 100%;
-    max-width: 580px;
+    padding: 10px 20px 20px 20px;
   }
 
-  iframe {
-    width: 100%;
-    height: 300px;
-    border: none;
-    border-radius: 12px;
-  }
-
-  /* NOISE */
-  #noise {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 9999;
-    opacity: 0.22;
-    mix-blend-mode: multiply;
-  }
-
-  /* MOBILE */
-  @media (max-width: 768px) {
-
-    .container {
-      flex-direction: column;
-    }
-
-    .left {
-      width: 100%;
-      padding: 25px 20px 10px 20px;
-      justify-content: flex-start;
-    }
-
-    .right {
-      width: 100%;
-      padding: 10px 20px 20px 20px;
-      display: block;
-    }
-
-    iframe {
-      height: 260px;
-    }
-  }
+  iframe { height: 260px; }
+}
 
 </style>
 </head>
@@ -195,134 +181,70 @@
 
 <div class="container">
 
-  <div class="left">
+<div class="left">
+  <div class="identity">barnaby baker - mix engineer</div>
 
-    <div class="identity">
-      barnaby baker - mix engineer
-    </div>
-
-    <div class="menu-item" onclick="toggle('mixing')">mixing</div>
-    <div id="mixing" class="dropdown">
-      <p><strong>safe mixes get ignored. i make records feel undeniable.</strong></p>
-      <p>48h turnaround</p>
-      <p>$450 per track</p>
-      <p>ep / album - contact</p>
-      <p><strong>limited spots each week</strong></p>
-      <p><strong>built by an artist, not just an engineer</strong></p>
-      <p>i shape records around clarity, emotion, and impact - pushing things forward without losing the feel</p>
-      <p>if you’ve got something coming up, send it over</p>
-    </div>
-
-    <div class="menu-item" onclick="toggle('production')">production</div>
-    <div id="production" class="dropdown">
-      <p>turn any demo into a finished record</p>
-      <p>arrangement, instrumentation, and production built around the song</p>
-      <p>$300 / day (online or in person)</p>
-    </div>
-
-    <div class="menu-item" onclick="toggle('contact')">work with me</div>
-    <div id="contact" class="dropdown">
-      <form action="https://formspree.io/f/mzdyzwgj" method="POST" class="contact-form">
-        <input type="text" name="name" placeholder="name (required)" required>
-        <input type="text" name="artist" placeholder="artist name (required)" required>
-        <input type="email" name="email" placeholder="email address (required)" required>
-        <textarea name="message" placeholder="message (required)" required></textarea>
-        <button type="submit">submit</button>
-      </form>
-    </div>
-
+  <div class="menu-item" onclick="toggle('mixing')">mixing</div>
+  <div id="mixing" class="dropdown">
+    <p><strong>safe mixes get ignored. i make records feel undeniable.</strong></p>
+    <p>48h turnaround</p>
+    <p>$450 per track</p>
+    <p>ep / album - contact</p>
+    <p><strong>limited spots each week</strong></p>
+    <p><strong>built by an artist, not just an engineer</strong></p>
+    <p>i shape records around clarity, emotion, and impact - pushing things forward without losing the feel</p>
+    <p>if you’ve got something coming up, send it over</p>
   </div>
 
-  <div class="right">
-    <div class="right-inner">
-      <iframe
-        src="https://open.spotify.com/embed/playlist/2Lom1NlMFpFxvv8zDj46XB?utm_source=generator&theme=0"
-        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-        loading="lazy">
-      </iframe>
-    </div>
+  <div class="menu-item" onclick="toggle('production')">production</div>
+  <div id="production" class="dropdown">
+    <p>turn any demo into a finished record</p>
+    <p>arrangement, instrumentation, and production built around the song</p>
+    <p>$300 / day (online or in person)</p>
   </div>
+
+  <div class="menu-item" onclick="toggle('contact')">work with me</div>
+  <div id="contact" class="dropdown">
+    <form action="https://formspree.io/f/mzdyzwgj" method="POST" class="contact-form">
+      <input type="text" name="name" placeholder="name (required)" required>
+      <input type="text" name="artist" placeholder="artist name (required)" required>
+      <input type="email" name="email" placeholder="email address (required)" required>
+      <textarea name="message" placeholder="message (required)" required></textarea>
+      <button type="submit">submit</button>
+    </form>
+  </div>
+</div>
+
+<div class="right">
+  <div class="right-inner">
+    <iframe src="https://open.spotify.com/embed/playlist/2Lom1NlMFpFxvv8zDj46XB?theme=0"></iframe>
+  </div>
+</div>
 
 </div>
 
 <script>
 function toggle(id) {
-  const all = document.querySelectorAll('.dropdown');
-  const target = document.getElementById(id);
-
-  all.forEach(el => {
-    if (el !== target) el.classList.remove('open');
+  document.querySelectorAll('.dropdown').forEach(el => {
+    if (el.id !== id) el.classList.remove('open');
   });
-
-  target.classList.toggle('open');
+  document.getElementById(id).classList.toggle('open');
 }
 </script>
 
 <script>
-/* NOISE */
-const canvas = document.getElementById("noise");
-const ctx = canvas.getContext("2d");
-
-function resize() {
-  canvas.width = window.innerWidth * 0.4;
-  canvas.height = window.innerHeight * 0.4;
-  canvas.style.width = window.innerWidth + "px";
-  canvas.style.height = window.innerHeight + "px";
-}
-resize();
-window.addEventListener("resize", resize);
-
-function gaussianRandom() {
-  let u = 0, v = 0;
-  while (u === 0) u = Math.random();
-  while (v === 0) v = Math.random();
-  return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
-}
-
-function drawNoise() {
-  const imageData = ctx.createImageData(canvas.width, canvas.height);
-  const buffer = imageData.data;
-
-  for (let i = 0; i < buffer.length; i += 4) {
-    let base = 128 + gaussianRandom() * 22;
-    base = Math.max(0, Math.min(255, base));
-    const grain = gaussianRandom() * 6;
-
-    buffer[i] = base + grain;
-    buffer[i+1] = base + grain;
-    buffer[i+2] = base + grain;
-    buffer[i+3] = 38;
-  }
-
-  ctx.putImageData(imageData, 0, 0);
-  requestAnimationFrame(drawNoise);
-}
-drawNoise();
-</script>
-
-<script>
-/* ASCII RIPPLE SYSTEM */
+/* ASCII SYSTEM */
 
 const ascii = document.getElementById("ascii");
 
-const charSets = [
-  [" ", ".", "-", "*", "@"],
-  [" ", ".", ":", "+", "#"],
-  [" ", ".", "-", "=", "%"]
-];
+const symbols = [" ", ".", "-", ":", "~", "+", "*", "=", "%", "#", "@", "&", "^"];
 
-let cols, rows;
-let grid = [];
-let activeRipples = [];
-let currentCharSet = charSets[0];
+let cols, rows, grid = [], ripples = [];
 
-function setupGrid() {
-  const fontSize = 12;
-  const charWidth = fontSize * 0.6;
-  const charHeight = fontSize * 1.2;
-
-  cols = Math.floor(window.innerWidth / charWidth);
-  rows = Math.floor(window.innerHeight / charHeight);
+function setup() {
+  const size = 24;
+  cols = Math.floor(window.innerWidth / (size * 0.6));
+  rows = Math.floor(window.innerHeight / size);
 
   grid = Array.from({ length: rows }, () =>
     Array.from({ length: cols }, () => 0)
@@ -330,80 +252,100 @@ function setupGrid() {
 }
 
 function render() {
-  let output = "";
-
+  let out = "";
   for (let y = 0; y < rows; y++) {
     let line = "";
     for (let x = 0; x < cols; x++) {
-      const state = Math.floor(grid[y][x]);
-      line += currentCharSet[state] || " ";
+      const i = Math.floor(grid[y][x]);
+      line += symbols[i] || " ";
     }
-    output += line + "\n";
+    out += line + "\n";
   }
-
-  ascii.textContent = output;
+  ascii.textContent = out;
 }
 
 function update() {
   // decay
   for (let y = 0; y < rows; y++) {
     for (let x = 0; x < cols; x++) {
-      if (grid[y][x] > 0) {
-        grid[y][x] -= 0.15;
-        if (grid[y][x] < 0) grid[y][x] = 0;
-      }
+      if (grid[y][x] > 0) grid[y][x] -= 0.05; // 🔥 slower decay
     }
   }
 
-  // ripple influence
-  activeRipples.forEach(r => {
+  // ripples
+  ripples.forEach(r => {
     r.radius += r.speed;
 
     for (let y = 0; y < rows; y++) {
       for (let x = 0; x < cols; x++) {
-
         const dx = x - r.cx;
         const dy = y - r.cy;
-        const dist = Math.sqrt(dx*dx + dy*dy);
+        const d = Math.sqrt(dx*dx + dy*dy);
 
-        const diff = Math.abs(dist - r.radius);
+        const diff = Math.abs(d - r.radius);
 
-        if (diff < 2) {
-          const strength = 1 - (diff / 2);
-          grid[y][x] = Math.max(grid[y][x], strength * 4);
+        if (diff < 3) {
+          grid[y][x] = Math.max(grid[y][x], 10 - diff * 2);
         }
       }
     }
-  });
 
-  activeRipples = activeRipples.filter(r => r.radius < r.maxRadius);
+    // bounce
+    if (r.radius > r.max) r.speed *= -0.6;
+  });
 
   render();
   requestAnimationFrame(update);
 }
 
-function triggerRipple() {
-  currentCharSet = charSets[Math.floor(Math.random() * charSets.length)];
-
-  activeRipples.push({
+function spawnRipple() {
+  ripples.push({
     cx: Math.random() * cols,
     cy: Math.random() * rows,
     radius: 0,
-    speed: 0.6 + Math.random(),
-    maxRadius: Math.max(cols, rows)
+    speed: 0.4 + Math.random() * 0.4,
+    max: Math.max(cols, rows)
   });
 }
 
-setupGrid();
+setup();
 update();
 
-window.addEventListener("resize", setupGrid);
+window.addEventListener("resize", setup);
 
-// organic timing
 setInterval(() => {
-  triggerRipple();
-}, 4000 + Math.random() * 3000);
+  spawnRipple();
+  if (Math.random() > 0.5) spawnRipple(); // sometimes double
+}, 5000);
+</script>
 
+<script>
+/* NOISE */
+const canvas = document.getElementById("noise");
+const ctx = canvas.getContext("2d");
+
+function resizeNoise() {
+  canvas.width = window.innerWidth * 0.4;
+  canvas.height = window.innerHeight * 0.4;
+  canvas.style.width = window.innerWidth + "px";
+  canvas.style.height = window.innerHeight + "px";
+}
+resizeNoise();
+window.addEventListener("resize", resizeNoise);
+
+function drawNoise() {
+  const img = ctx.createImageData(canvas.width, canvas.height);
+  for (let i = 0; i < img.data.length; i += 4) {
+    const v = 128 + Math.random() * 40;
+    img.data[i] = v;
+    img.data[i+1] = v;
+    img.data[i+2] = v;
+    img.data[i+3] = 38;
+  }
+  ctx.putImageData(img, 0, 0);
+  requestAnimationFrame(drawNoise);
+}
+drawNoise();
 </script>
 
 </body>
