@@ -175,48 +175,44 @@ iframe {
 
 <div class="container">
 
-  <div class="left">
+<div class="left">
+  <div class="identity">barnaby baker - mix engineer</div>
 
-    <div class="identity">barnaby baker - mix engineer</div>
-
-    <div class="menu-item" onclick="toggle('mixing')">mixing</div>
-    <div id="mixing" class="dropdown">
-      <p><strong>safe mixes get ignored. i make records feel undeniable.</strong></p>
-      <p>48h turnaround</p>
-      <p>$450 per track</p>
-      <p>ep / album - contact</p>
-      <p><strong>limited spots each week</strong></p>
-      <p>i shape records around clarity, emotion, and impact - pushing things forward without losing the feel</p>
-      <p>if you’ve got something coming up, send it over</p>
-    </div>
-
-    <div class="menu-item" onclick="toggle('production')">production</div>
-    <div id="production" class="dropdown">
-      <p>turn any demo into a finished record</p>
-      <p>arrangement, instrumentation, and production built around the song</p>
-      <p>$300 / day (online or in person)</p>
-    </div>
-
-    <div class="menu-item" onclick="toggle('contact')">work with me</div>
-    <div id="contact" class="dropdown">
-
-      <form action="https://formspree.io/f/mzdyzwgj" method="POST" class="contact-form">
-        <input type="text" name="name" placeholder="name (required)" required>
-        <input type="text" name="artist" placeholder="artist name (required)" required>
-        <input type="email" name="email" placeholder="email address (required)" required>
-        <textarea name="message" placeholder="message (required)" required></textarea>
-        <button type="submit">submit</button>
-      </form>
-
-    </div>
-
+  <div class="menu-item" onclick="toggle('mixing')">mixing</div>
+  <div id="mixing" class="dropdown">
+    <p><strong>safe mixes get ignored. i make records feel undeniable.</strong></p>
+    <p>48h turnaround</p>
+    <p>$450 per track</p>
+    <p>ep / album - contact</p>
+    <p><strong>limited spots each week</strong></p>
+    <p>i shape records around clarity, emotion, and impact - pushing things forward without losing the feel</p>
+    <p>if you’ve got something coming up, send it over</p>
   </div>
 
-  <div class="right">
-    <div class="right-inner">
-      <iframe src="https://open.spotify.com/embed/playlist/2Lom1NlMFpFxvv8zDj46XB?theme=0"></iframe>
-    </div>
+  <div class="menu-item" onclick="toggle('production')">production</div>
+  <div id="production" class="dropdown">
+    <p>turn any demo into a finished record</p>
+    <p>arrangement, instrumentation, and production built around the song</p>
+    <p>$300 / day (online or in person)</p>
   </div>
+
+  <div class="menu-item" onclick="toggle('contact')">work with me</div>
+  <div id="contact" class="dropdown">
+    <form action="https://formspree.io/f/mzdyzwgj" method="POST" class="contact-form">
+      <input type="text" name="name" placeholder="name (required)" required>
+      <input type="text" name="artist" placeholder="artist name (required)" required>
+      <input type="email" name="email" placeholder="email address (required)" required>
+      <textarea name="message" placeholder="message (required)" required></textarea>
+      <button type="submit">submit</button>
+    </form>
+  </div>
+</div>
+
+<div class="right">
+  <div class="right-inner">
+    <iframe src="https://open.spotify.com/embed/playlist/2Lom1NlMFpFxvv8zDj46XB?theme=0"></iframe>
+  </div>
+</div>
 
 </div>
 
@@ -230,7 +226,7 @@ function toggle(id) {
 </script>
 
 <script>
-/* ASCII SYSTEM (UPDATED BEHAVIOUR) */
+/* ASCII SYSTEM - FINAL VERSION */
 
 const ascii = document.getElementById("ascii");
 
@@ -267,16 +263,16 @@ function render() {
 
 function update() {
 
-  // fade
+  // decay field
   for (let y = 0; y < rows; y++) {
     for (let x = 0; x < cols; x++) {
-      grid[y][x] *= 0.92;
+      grid[y][x] *= 0.90;
     }
   }
 
   ripples.forEach(r => {
 
-    r.radius += r.speed; // slower wave
+    r.radius += r.speed;
 
     for (let y = 0; y < rows; y++) {
       for (let x = 0; x < cols; x++) {
@@ -287,19 +283,33 @@ function update() {
 
         const diff = d - r.radius;
 
-        const front = Math.exp(-Math.pow(diff * 0.9, 2));
-        const body  = Math.exp(-Math.pow(diff * 0.25, 2));
-        const tail  = Math.exp(-Math.pow(diff * 0.12, 2));
+        // wide, soft, full-screen capable wave
+        const front = Math.exp(-Math.pow(diff * 0.6, 2));
+        const body  = Math.exp(-Math.pow(diff * 0.18, 2));
+        const tail  = Math.exp(-Math.pow(diff * 0.08, 2));
 
-        const intensity = (front * 1.2) + (body * 0.8) + (tail * 0.4);
+        const intensity = (front * 1.4) + (body * 1.0) + (tail * 0.6);
 
-        if (intensity > 0.05) {
-          grid[y][x] = Math.max(grid[y][x], intensity * 10);
+        if (intensity > 0.02) {
+
+          const existing = grid[y][x];
+
+          let value;
+
+          if (intensity > 1.2) {
+            value = 10 + Math.floor(Math.random() * 3);
+          } else if (intensity > 0.6) {
+            value = 6 + Math.floor(Math.random() * 4);
+          } else {
+            value = 2 + Math.floor(Math.random() * 4);
+          }
+
+          grid[y][x] = Math.max(existing, value * intensity);
         }
       }
     }
 
-    if (r.radius > r.max * 1.2) r.dead = true;
+    if (r.radius > r.max * 1.35) r.dead = true;
   });
 
   ripples = ripples.filter(r => !r.dead);
@@ -313,12 +323,12 @@ function spawnRipple() {
     cx: Math.random() * cols,
     cy: Math.random() * rows,
     radius: 0,
-    speed: 0.18 + Math.random() * 0.12, // 50% slower
+    speed: 0.18 + Math.random() * 0.12,
     max: Math.max(cols, rows)
   });
 }
 
-/* 5–7 second spacing, no stacking */
+/* 5–7 sec spacing */
 function scheduleRipple() {
   spawnRipple();
   const delay = 5000 + Math.random() * 2000;
