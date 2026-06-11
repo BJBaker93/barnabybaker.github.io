@@ -3,12 +3,16 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
 <title>barnaby baker - mixing</title>
+
 <meta name="description" content="Barnaby Baker is a remote mix engineer for alt-pop, indie rock, punk, emo and guitar-forward records. Send a demo, rough mix, or stems. Hear A/B examples. Book mixing or production finishing." />
 <meta name="robots" content="index,follow" />
+
 <meta property="og:title" content="barnaby baker - mixing" />
 <meta property="og:description" content="rough songs into real records. a/b mix examples. remote mixing and production finishing." />
 <meta property="og:type" content="website" />
+
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -31,6 +35,7 @@
 }
 
 * { box-sizing: border-box; }
+
 html { scroll-behavior: smooth; }
 
 body {
@@ -45,17 +50,24 @@ body {
   text-rendering: geometricPrecision;
 }
 
-::selection { background: var(--accent); color: var(--ink); }
+::selection {
+  background: var(--accent);
+  color: var(--ink);
+}
 
 button,
 input,
-textarea { font: inherit; }
+textarea {
+  font: inherit;
+}
 
 .page {
   width: min(980px, 100%);
   margin: 0 auto;
   padding: clamp(22px, 4vw, 52px);
 }
+
+/* TOP */
 
 .topline {
   margin-bottom: clamp(62px, 11vw, 118px);
@@ -67,12 +79,14 @@ textarea { font: inherit; }
   line-height: 1;
 }
 
+/* HERO */
+
 .hero {
-  display: grid;
-  grid-template-columns: minmax(0, 0.92fr) minmax(280px, 0.68fr);
-  gap: clamp(34px, 7vw, 82px);
-  align-items: start;
-  margin-bottom: clamp(66px, 11vw, 118px);
+  margin-bottom: clamp(58px, 10vw, 104px);
+}
+
+.hero-copy {
+  max-width: 640px;
 }
 
 h1 {
@@ -94,6 +108,7 @@ h1 {
   gap: 5px;
   font-size: clamp(13px, 1.55vw, 18px);
   line-height: 1;
+  margin-bottom: clamp(42px, 7vw, 72px);
 }
 
 .prompt-list a,
@@ -114,46 +129,60 @@ h1 {
 .prompt-list button::before,
 .prompt::before,
 summary::before,
-.submit::before { content: ">"; }
+.submit::before {
+  content: ">";
+}
 
 .prompt-list a:hover,
 .prompt-list button:hover,
-a:hover { color: var(--accent); }
+a:hover {
+  color: var(--accent);
+}
+
+/* A/B */
 
 .ab-zone {
+  width: 100%;
+  max-width: 760px;
   margin-top: 0;
-  font-size: 14px;
 }
 
 .ab-title {
   color: var(--accent);
-  font-size: clamp(15px, 1.8vw, 21px);
-  line-height: 0.95;
+  font-size: clamp(14px, 1.55vw, 18px);
+  line-height: 1;
   text-transform: uppercase;
-  margin-bottom: 6px;
+  margin-bottom: 5px;
 }
 
 .ab-note {
   color: var(--ghost);
-  font-size: clamp(11px, 1.15vw, 13px);
+  font-size: 11px;
   line-height: 1.05;
-  margin-bottom: 20px;
-  letter-spacing: -0.025em;
+  margin-bottom: 18px;
+  letter-spacing: -0.018em;
 }
 
-.ab-item { margin-bottom: 24px; }
+.ab-item {
+  display: grid;
+  grid-template-columns: minmax(160px, 1fr) auto;
+  column-gap: 18px;
+  row-gap: 7px;
+  align-items: baseline;
+  margin-bottom: 22px;
+}
 
 .ab-name {
-  font-size: clamp(13px, 1.45vw, 17px);
+  font-size: clamp(13px, 1.35vw, 16px);
   line-height: 1;
-  margin-bottom: 8px;
+  margin: 0;
 }
 
 .ab-controls {
   display: flex;
-  gap: 9px;
-  margin-bottom: 8px;
-  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  flex-wrap: nowrap;
 }
 
 .ab-controls button {
@@ -162,19 +191,23 @@ a:hover { color: var(--accent); }
   color: var(--ink);
   padding: 0;
   cursor: pointer;
-  font-size: clamp(12px, 1.28vw, 15px);
+  font-size: clamp(12px, 1.15vw, 14px);
   line-height: 1;
 }
 
 .ab-controls button::before { content: "["; }
 .ab-controls button::after { content: "]"; }
+
 .ab-controls button.active,
-.ab-controls button:hover { color: var(--accent); }
+.ab-controls button:hover {
+  color: var(--accent);
+}
 
 .audio-wrap {
+  grid-column: 1 / -1;
   width: 100%;
   border-top: var(--line) solid var(--ink);
-  padding-top: 6px;
+  padding-top: 5px;
 }
 
 audio {
@@ -184,13 +217,16 @@ audio {
 }
 
 .ab-caption {
-  margin-top: 7px;
+  grid-column: 1 / -1;
+  margin-top: 0;
   font-size: 10.5px;
   line-height: 1.15;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.015em;
   color: var(--ghost);
   font-weight: 700;
 }
+
+/* SECTIONS */
 
 .section {
   margin: 0 0 clamp(62px, 10vw, 108px) 0;
@@ -217,7 +253,9 @@ audio {
   line-height: 1;
 }
 
-.raw-copy p { margin: 0 0 7px 0; }
+.raw-copy p {
+  margin: 0 0 7px 0;
+}
 
 .small-copy {
   font-size: clamp(13px, 1.48vw, 18px);
@@ -226,14 +264,20 @@ audio {
   letter-spacing: -0.03em;
 }
 
-.small-copy p { margin: 0 0 12px 0; }
+.small-copy p {
+  margin: 0 0 12px 0;
+}
+
+/* FAQ */
 
 details {
   border-top: var(--line) solid var(--ink);
   padding: 10px 0 12px 0;
 }
 
-details:last-child { border-bottom: var(--line) solid var(--ink); }
+details:last-child {
+  border-bottom: var(--line) solid var(--ink);
+}
 
 summary {
   list-style: none;
@@ -242,8 +286,13 @@ summary {
   line-height: 1;
 }
 
-summary::-webkit-details-marker { display: none; }
-details[open] summary { color: var(--accent); }
+summary::-webkit-details-marker {
+  display: none;
+}
+
+details[open] summary {
+  color: var(--accent);
+}
 
 details p {
   margin: 10px 0 0 0;
@@ -252,6 +301,8 @@ details p {
   line-height: 1.08;
   letter-spacing: -0.025em;
 }
+
+/* FORM */
 
 .contact-form {
   display: grid;
@@ -284,7 +335,9 @@ details p {
 }
 
 .contact-form input:focus,
-.contact-form textarea:focus { border-color: var(--accent); }
+.contact-form textarea:focus {
+  border-color: var(--accent);
+}
 
 .submit {
   margin-top: 8px;
@@ -299,7 +352,11 @@ details p {
   text-transform: uppercase;
 }
 
-.submit:hover { color: var(--ink); }
+.submit:hover {
+  color: var(--ink);
+}
+
+/* FOOTER */
 
 .footer {
   display: flex;
@@ -317,23 +374,28 @@ details p {
   text-decoration: none;
 }
 
-@media (max-width: 850px) {
-  .topline { margin-bottom: 58px; }
+/* MOBILE */
 
-  .hero,
+@media (max-width: 850px) {
+  .topline {
+    margin-bottom: 58px;
+  }
+
   .raw-grid,
   .form-grid {
     grid-template-columns: 1fr;
   }
 
-  .hero { gap: 44px; }
-  .footer { display: grid; }
+  .footer {
+    display: grid;
+  }
 }
 </style>
 </head>
 
 <body>
   <main class="page">
+
     <header class="topline">
       <div class="identity">barnaby baker - mix engineer</div>
     </header>
@@ -396,6 +458,7 @@ details p {
 
     <section class="section raw-grid" id="mixing">
       <div class="section-title">mixing</div>
+
       <div class="raw-copy">
         <p class="prompt">$450 aud / track</p>
         <p class="prompt">48h first pass</p>
@@ -407,6 +470,7 @@ details p {
 
     <section class="section raw-grid" id="production">
       <div class="section-title">production / finishing</div>
+
       <div class="small-copy">
         <p>some songs do not need a mix yet. they need one brutal decision.</p>
         <p>arrangement. vocal. drums. guitars. low-end. the thing blocking the song.</p>
@@ -446,6 +510,7 @@ details p {
     <section class="section form-grid" id="contact">
       <div>
         <div class="section-title">send it</div>
+
         <div class="small-copy">
           <p>demo first. stems if they’re ready. one link is enough to start.</p>
         </div>
@@ -461,6 +526,7 @@ details p {
         <input type="url" name="references_link" placeholder="reference playlist / track link">
         <input type="text" name="deadline" placeholder="deadline / release plan">
         <textarea name="message" placeholder="notes / context"></textarea>
+
         <button class="submit" type="submit">submit</button>
       </form>
     </section>
@@ -470,6 +536,7 @@ details p {
       <span>barnaby baker - mixing</span>
       <a href="mailto:hello@barnabybaker.au">hello@barnabybaker.au</a>
     </footer>
+
   </main>
 
 <script>
@@ -479,15 +546,22 @@ function setAB(button, type) {
   const src = item.dataset[type];
   const wasPlaying = !audio.paused;
 
-  item.querySelectorAll('.ab-controls button').forEach(btn => btn.classList.remove('active'));
+  item.querySelectorAll('.ab-controls button').forEach(btn => {
+    btn.classList.remove('active');
+  });
+
   button.classList.add('active');
 
   if (audio.getAttribute('src') !== src) {
     audio.setAttribute('src', src);
     audio.load();
-    if (wasPlaying) audio.play().catch(() => {});
+
+    if (wasPlaying) {
+      audio.play().catch(() => {});
+    }
   }
 }
 </script>
+
 </body>
 </html>
